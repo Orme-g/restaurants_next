@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { serachRestaurantByUserInput } from "@/server/services/restaurants.service";
+import { connectMongoose } from "@/server/db/mongoose";
+import { serachRestaurantByUserInput } from "@/app/entities/restaurant/services/restaurants.service";
 
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
+    await connectMongoose();
     try {
         const { searchParams } = request.nextUrl;
         const input = searchParams.get("input");

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { postAdditionalReviewToExisting } from "@/server/services/reviews.service";
-import type { IAdditionalReview } from "@/shared/validators/reviews";
+import { postAdditionalReviewToExisting } from "@/app/entities/review/services/review.service";
+import type { IAdditionalReview } from "@/app/entities/review/models/review.validators";
 
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
     try {
         const userId = request.headers.get("x-user-id");
         const additionalReview: IAdditionalReview = await request.json();

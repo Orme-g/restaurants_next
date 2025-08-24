@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { findRestaurantByUserCriterias } from "@/server/services/restaurants.service";
-import { restaurantsSearchSchema } from "@/shared/validators/restaurants";
+import { connectMongoose } from "@/server/db/mongoose";
+import { findRestaurantByUserCriterias } from "@/app/entities/restaurant/services/restaurants.service";
+import { restaurantsSearchSchema } from "@/app/entities/restaurant/models/restaurant.validators";
 
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
+    await connectMongoose();
     try {
         const body = await request.json();
         const validatedBody = restaurantsSearchSchema.parse(body);

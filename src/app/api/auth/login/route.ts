@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { loginUser } from "@/server/services/auth.service";
-import type { ILoginData } from "@/shared/validators/auth";
+import { connectMongoose } from "@/server/db/mongoose";
+import { loginUser } from "@/app/processes/auth/services/auth.service";
+import type { ILoginData } from "@/app/processes/auth/model/auth.validators";
 
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
+    await connectMongoose();
     try {
         const loginData: ILoginData = await request.json();
         const result = await loginUser(loginData);
