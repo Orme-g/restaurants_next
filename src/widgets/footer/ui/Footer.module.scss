@@ -1,0 +1,108 @@
+@use "mixins";
+
+.footer {
+    min-height: 250px;
+    width: 100%;
+    color: #afafaf;
+    background-color: #545454;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+
+    &__information {
+        width: 35%;
+        border-right: 1px solid #828282;
+        display: flex;
+        flex-direction: column;
+    }
+    &__title {
+        text-transform: uppercase;
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+    &__reg {
+        @include mixins.light-text;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        flex-grow: 1;
+        p {
+            margin: 0 17px 0 17px;
+            line-height: 20px;
+        }
+    }
+    &__links {
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+    }
+    &__navigation {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 10px;
+        &_item {
+            font-size: 1.2rem;
+        }
+        &_icon {
+            height: 20px;
+            width: 20px;
+            margin-right: 2px;
+        }
+    }
+    &__social {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        &_icon {
+            height: 40px;
+            width: 40px;
+        }
+    }
+}
+
+@media (max-width: 780px) {
+    .footer {
+        &__title {
+            font-size: 2.5rem;
+        }
+        &__reg {
+            font-size: 0.8rem;
+        }
+    }
+}
+@media (max-width: 480px) {
+    .footer {
+        &__title {
+            font-size: 2rem;
+        }
+        &__reg {
+            font-size: 0.6rem;
+            p {
+                line-height: 15px;
+            }
+        }
+        &__navigation {
+            flex-direction: column;
+            height: fit-content;
+            margin-top: 20px;
+            gap: 5px;
+            &_item {
+                font-size: 1rem;
+            }
+        }
+        &__social {
+            margin-top: 30px;
+            &_link {
+                a {
+                    font-size: 2rem;
+                }
+            }
+        }
+    }
+}

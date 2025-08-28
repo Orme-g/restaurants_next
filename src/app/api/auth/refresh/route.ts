@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { generateNewAccessToken } from "@/app/processes/auth/services/auth.service";
+import { generateNewAccessToken } from "@/processes/auth/services/auth.service";
 
 export async function POST(request: NextRequest) {
     try {

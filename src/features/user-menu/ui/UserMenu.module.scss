@@ -1,0 +1,13 @@
+@use "variables";
+.menu {
+    &__username {
+        line-height: 35px;
+        padding-left: 20px;
+        border-bottom: variables.$divider-style;
+        color: #605d5d;
+    }
+    &__icon {
+        height: 20px;
+        width: 20px;
+    }
+}

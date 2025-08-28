@@ -1,0 +1,7 @@
+@use "variables";
+
+.side-menu {
+    a {
+        color: variables.$primary-text;
+    }
+}

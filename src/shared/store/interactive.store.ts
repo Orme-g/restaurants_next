@@ -2,10 +2,10 @@ import { create } from "zustand";
 
 interface IInteractiveStore {
     isSideMenuOpen: boolean;
-    toggleMenu: () => void;
+    toggleSideMenu: () => void;
 }
 
 export const useInteractive = create<IInteractiveStore>((set) => ({
     isSideMenuOpen: false,
-    toggleMenu: () => set((state) => ({ isSideMenuOpen: !state.isSideMenuOpen })),
+    toggleSideMenu: () => set((state) => ({ isSideMenuOpen: !state.isSideMenuOpen })),
 }));

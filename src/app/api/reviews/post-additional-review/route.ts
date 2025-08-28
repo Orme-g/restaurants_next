@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { postAdditionalReviewToExisting } from "@/app/entities/review/services/review.service";
-import type { IAdditionalReview } from "@/app/entities/review/models/review.validators";
+import { postAdditionalReviewToExisting } from "@/entities/review/services/review.service";
+import type { IAdditionalReview } from "@/entities/review/models/review.validators";
 
 export const runtime = "nodejs";
 

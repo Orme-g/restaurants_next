@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongoose } from "@/server/db/mongoose";
-import { loginUser } from "@/app/processes/auth/services/auth.service";
-import type { ILoginData } from "@/app/processes/auth/model/auth.validators";
+import { loginUser } from "@/processes/auth/services/auth.service";
+import type { ILoginData } from "@/processes/auth/model/auth.validators";
 
 export const runtime = "nodejs";
 

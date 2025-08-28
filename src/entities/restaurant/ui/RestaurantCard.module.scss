@@ -1,0 +1,48 @@
+.restaurant-card {
+    display: block;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    &__image-wrapper {
+        height: 60%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+    }
+    &__image {
+        object-fit: cover;
+    }
+
+    &__title {
+        height: 12%;
+        margin: 0 15px;
+        font-size: 1.3rem;
+        font-weight: 400;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+    &__content {
+        height: 28%;
+        padding: 5px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-weight: 300;
+    }
+    &__description {
+        order: 1;
+    }
+    &__cousines {
+        order: 2;
+    }
+    &__bill {
+        order: 3;
+    }
+    &__rating {
+        order: 4;
+        margin-top: auto;
+    }
+}

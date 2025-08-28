@@ -1,26 +1,25 @@
 /* @import "tailwindcss";
   */
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: var(--font-roboto), sans-serif;
-}
-header {
-    background-color: #000;
     display: flex;
-    justify-content: space-between;
-
-    padding: 20px 40px;
-    span {
-        color: #fff;
-        font-weight: 600;
-        font-size: 20px;
-    }
-    a {
-        margin-left: auto;
-        color: #c70b0b;
-        margin-left: 20px;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 600;
-    }
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1;
+}
+ul {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    color: inherit;
 }

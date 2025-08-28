@@ -1,0 +1,29 @@
+.search-results {
+    &__list {
+        width: 100%;
+        overflow: scroll;
+        max-height: 150px;
+        &.show {
+            display: block;
+        }
+        &.hide {
+            display: none;
+        }
+    }
+    &__item {
+        display: block;
+        padding-left: 20px;
+        line-height: 40px;
+        background-color: rgba(247, 247, 247, 0.95);
+        font-size: 1.1rem;
+        font-weight: 300;
+        border-bottom: 1px solid #dddddd;
+        transition: background-color 0.2s;
+        &:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+        &:hover {
+            background-color: rgba(224, 224, 224, 0.925);
+        }
+    }
+}

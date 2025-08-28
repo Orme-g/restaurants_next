@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongoose } from "@/server/db/mongoose";
-import { getRestaurantProfile } from "@/app/entities/restaurant/services/restaurants.service";
+import { getRestaurantProfile } from "@/entities/restaurant/services/restaurants.service";
 
 export const runtime = "nodejs";
 

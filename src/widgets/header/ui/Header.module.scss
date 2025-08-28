@@ -1,0 +1,25 @@
+@use "mixins";
+@use "variables";
+
+.header {
+    &__items {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        &_left-side {
+            display: flex;
+            align-items: center;
+        }
+        &_right-side {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+.header-spinner {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+}

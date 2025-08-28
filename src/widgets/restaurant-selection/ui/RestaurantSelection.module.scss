@@ -1,0 +1,9 @@
+@use "variables";
+.selection {
+    &__title {
+        font-size: 2rem;
+        font-weight: 300;
+        padding-bottom: 15px;
+        border-bottom: variables.$divider-style;
+    }
+}
