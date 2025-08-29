@@ -9,10 +9,10 @@ const RestaurantSearchBar = () => {
     const [value, setValue] = useState<string>("");
     const [data, setData] = useState<IRestaurantSearchResult[] | null>(null);
     const [displayListState, setDisplayListState] = useState("hide");
-    console.log(data);
+
     useEffect(() => {
-        console.log("Fetching...");
         if (value) {
+            console.log("Fetching...");
             fetch(`/api/restaurants/search-restaurant?input=${value}`)
                 .then((result) => result.json() as Promise<IRestaurantSearchResult[]>)
                 .then((data) => setData(data));
@@ -32,17 +32,21 @@ const RestaurantSearchBar = () => {
     }
     let results;
     if (data) {
-        results = data.map(({ name, _id }) => {
-            return (
-                <Link
-                    key={_id}
-                    href={`restaurants/${_id}`}
-                    className={styles["search-results__item"]}
-                >
-                    {name}
-                </Link>
-            );
-        });
+        if (data.length > 0) {
+            results = data.map(({ name, _id }) => {
+                return (
+                    <Link
+                        key={_id}
+                        href={`restaurants/${_id}`}
+                        className={styles["search-results__item"]}
+                    >
+                        {name}
+                    </Link>
+                );
+            });
+        } else {
+            results = <li className={styles["search-results__item"]}>Ничего не найдено...</li>;
+        }
     }
 
     return (
@@ -50,6 +54,7 @@ const RestaurantSearchBar = () => {
             <TextField
                 value={value}
                 fullWidth
+                autoComplete="off"
                 label="Найти ресторан..."
                 sx={{
                     margin: "200px auto 0 auto",
