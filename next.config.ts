@@ -10,7 +10,15 @@ const nextConfig: NextConfig = {
         ignoreDuringBuilds: true,
     },
     images: {
-        domains: ["localhost", "weats.ru"],
+        domains: [
+            "localhost",
+            "weats.ru",
+            "eda.yandex.ru",
+            "media-cdn.tripadvisor.com",
+            "images.vfl.ru",
+            "www.restoclub.ru",
+            "vkus-eda-dostavka.ru",
+        ],
     },
 };
 

@@ -5,6 +5,7 @@ import LongCard from "@/shared/ui/long-card/LongCard";
 import styles from "./ArticleLongCard.module.scss";
 
 interface IArticleLongCardProps {
+    articleId: string;
     title_image: string;
     name: string;
     createdAt: string;
@@ -13,6 +14,7 @@ interface IArticleLongCardProps {
 }
 
 const ArticleLongCard: React.FC<IArticleLongCardProps> = ({
+    articleId,
     title_image,
     name,
     createdAt,
@@ -33,7 +35,7 @@ const ArticleLongCard: React.FC<IArticleLongCardProps> = ({
         </div>
     );
     return (
-        <Link href={"/art"} className={styles["article-card"]}>
+        <Link href={`/doner-articles/${articleId}`} className={styles["article-card"]}>
             <LongCard
                 image={title_image}
                 header={articleHeader}

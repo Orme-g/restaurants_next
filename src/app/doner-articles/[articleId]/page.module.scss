@@ -1,0 +1,221 @@
+@use "mixins";
+@use "variables";
+
+.article-page {
+    background-color: variables.$wrapper-color;
+    padding: 100px 0;
+}
+.article {
+    &__container {
+        margin: 0 auto;
+        width: 60%;
+        background-color: variables.$container-color;
+        padding: 40px;
+        border-radius: 15px;
+    }
+
+    &__title {
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 70px;
+    }
+
+    &__subtitle {
+        margin-top: 15px;
+        font-size: 1.5rem;
+        font-weight: 300;
+        padding-bottom: 30px;
+        border-bottom: variables.$divider-style;
+    }
+    &__image {
+        height: 500px;
+        width: 100%;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+    }
+    &__content {
+        @include mixins.light-text;
+        margin-top: 50px;
+        margin-bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        p {
+            text-indent: 30px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        blockquote {
+            @include mixins.blockquote;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        .content__slider {
+            height: 600px;
+            width: 100%;
+            & > .swiper {
+                border-radius: 10px;
+            }
+        }
+        .content__image {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 10px;
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+    &__rating {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        font-style: italic;
+        color: variables.$primary-text;
+    }
+
+    &__author {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        font-style: italic;
+        color: variables.$primary-text;
+        span {
+            font-weight: 300;
+        }
+    }
+    &__published {
+        font-size: 1.3rem;
+        font-style: italic;
+        padding-bottom: 30px;
+        color: variables.$primary-text;
+        border-bottom: variables.$divider-style;
+        span {
+            font-weight: 300;
+        }
+    }
+    &__comments {
+        margin: 0 auto;
+        width: 60%;
+    }
+}
+
+@media (max-width: 980px) {
+    .doner-topic {
+        &__container {
+            width: 85%;
+        }
+        &__comments {
+            width: 85%;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .doner-topic {
+        &__container {
+            padding: 30px;
+        }
+        &__title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        &__subtitle {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            padding-bottom: 10px;
+        }
+        &__image {
+            height: 350px;
+        }
+        &__content {
+            margin-top: 20px;
+            margin-bottom: 50px;
+            gap: 20px;
+            p {
+                text-indent: 20px;
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            blockquote {
+                margin-left: 15px;
+                margin-right: 15px;
+                line-height: 1.6;
+            }
+            .content__slider {
+                height: 400px;
+            }
+            .content__image {
+                height: 350px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding-top: 80px;
+    }
+    .doner-topic {
+        &__container {
+            padding: 20px;
+            width: 95%;
+        }
+        &__title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        &__subtitle {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            padding-bottom: 10px;
+        }
+        &__image {
+            height: 300px;
+        }
+        &__content {
+            margin-top: 20px;
+            margin-bottom: 50px;
+            gap: 20px;
+            p {
+                text-indent: 20px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            blockquote {
+                margin-left: 15px;
+                margin-right: 15px;
+                line-height: 1.5;
+            }
+            .content__slider {
+                height: 350px;
+            }
+            .content__image {
+                height: 300px;
+            }
+        }
+        &__rating {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            span {
+                font-size: 25px;
+            }
+        }
+        &__author {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+        &__published {
+            font-size: 1.1rem;
+            padding-bottom: 30px;
+        }
+        &__comments {
+            width: 95%;
+        }
+    }
+}

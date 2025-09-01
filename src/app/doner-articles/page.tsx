@@ -21,9 +21,11 @@ const DonerArticles = async () => {
                 </div>
                 <div className={styles["doner-articles-page__cards"]}>
                     {articles.map((item, index) => {
-                        const { title_image, name, createdAt, rating, short_description } = item;
+                        const { _id, title_image, name, createdAt, rating, short_description } =
+                            item;
                         return (
                             <ArticleLongCard
+                                articleId={_id}
                                 name={name}
                                 createdAt={transformDate(createdAt)}
                                 rating={rating}
