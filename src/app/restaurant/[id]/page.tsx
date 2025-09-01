@@ -1,13 +1,21 @@
 import CarouselImages from "@/shared/ui/carousel/CarouselImages";
-import RestaurantInfo from "@/entities/restaurant/ui/RestaurantInfo";
-import { getRestaurantProfile } from "@/entities/restaurant/services/restaurants.service";
+import RestaurantInfo from "@/entities/restaurant/ui/restaurant-info/RestaurantInfo";
+import { getRestaurantProfile } from "@/entities/restaurant/services/restaurant.service";
 import prepareCousineList from "@/entities/restaurant/lib/prepareCousineList";
+import RestaurantTabs from "@/widgets/restaurant-tabs/ui/RestaurantTabs";
+import { connectMongoose } from "@/server/db/mongoose";
 import styles from "./page.module.scss";
+
+import type { IReview } from "@/entities/review/models/review.types";
 
 const Restaurant = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
+    await connectMongoose();
     const restaurant = await getRestaurantProfile(id);
-    if (!restaurant) return;
+    const reviews: IReview[] = await fetch(`http://localhost:3000/api/reviews/${id}`, {
+        next: { revalidate: 600 },
+    }).then((response) => response.json());
+    if (!restaurant || !reviews) return;
     const { averageRating, rating, cousine, adress, bill, subway, phone, name, images } =
         restaurant;
 
@@ -31,6 +39,7 @@ const Restaurant = async ({ params }: { params: Promise<{ id: string }> }) => {
                     />
                 </div>
             </div>
+            <RestaurantTabs reviews={reviews} />
         </div>
     );
 };

@@ -1,0 +1,51 @@
+@use "variables";
+.toggle-display-extra-review {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 10px;
+    &:before {
+        content: " ";
+        background: variables.$green-color;
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        bottom: 45%;
+        left: 0px;
+        z-index: 1;
+    }
+    &__button {
+        cursor: pointer;
+        width: fit-content;
+        z-index: 2;
+        border: none;
+        background-color: #ffffff;
+        padding-left: 5px;
+        padding-right: 5px;
+        color: variables.$primary-text;
+    }
+}
+
+.animated-block {
+    &.hide-with-animation {
+        visibility: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-50px);
+        transition: opacity 0.5s, max-height 0.2s, transform 1s;
+    }
+    &.show-with-animation {
+        visibility: visible;
+        max-height: 100vh;
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s 0.2s, max-height 1s, transform 1s;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle-display-extra-review_text {
+        font-size: 0.6rem;
+    }
+}

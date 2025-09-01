@@ -1,0 +1,67 @@
+@use "variables";
+
+.doner-articles-page {
+    background-color: variables.$wrapper-color;
+    padding: 100px 0;
+    &__content {
+        margin: 0 auto;
+        padding: 50px 40px;
+        width: 75%;
+        height: fit-content;
+        border-radius: 10px;
+        background-color: variables.$container-color;
+        position: relative;
+    }
+
+    &__title {
+        font-size: 2.7rem;
+        font-weight: 300;
+        margin-bottom: 30px;
+        border-bottom: variables.$divider-style;
+        padding-left: 25px;
+        color: #000;
+    }
+    &__about {
+        line-height: 1.7;
+        font-weight: 300;
+        font-size: 1.2rem;
+        text-indent: 25px;
+        margin-bottom: 70px;
+    }
+    &__cards {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+}
+
+@media (max-width: 980px) {
+    .doner-articles-page {
+        &__content {
+            width: 95%;
+        }
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 550px) {
+    .doner-articles-page {
+        padding: 70px 0;
+    }
+    .doner-articles-page {
+        &__content {
+            padding: 30px 25px 50px 25px;
+        }
+        &__title {
+            padding-left: 10px;
+            font-size: 2rem;
+        }
+        &__about {
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+        &__cards {
+            gap: 30px;
+        }
+    }
+}

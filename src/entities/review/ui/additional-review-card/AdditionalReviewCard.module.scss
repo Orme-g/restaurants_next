@@ -1,0 +1,54 @@
+@use "variables";
+@use "mixins";
+
+.additional-review {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    box-shadow: 2px 1px 20px -3px rgba(34, 60, 80, 0.15);
+    border-radius: 0px 0px 15px 15px;
+    &__content {
+        padding-top: 35px;
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-auto-rows: minmax(50px, auto);
+    }
+    &__title {
+        justify-self: end;
+        margin-right: 30px;
+        margin-left: 20px;
+        white-space: nowrap;
+    }
+
+    &__value {
+        @include mixins.light-text;
+        margin-right: 30px;
+        margin-bottom: 30px;
+        line-height: 1.25;
+    }
+    &__added {
+        position: absolute;
+        bottom: 20px;
+        right: 50px;
+        font-weight: 300;
+        font-style: italic;
+    }
+}
+@media (max-width: 480px) {
+    .additional-review {
+        &__content {
+            padding-top: 25px;
+        }
+        &__title {
+            font-size: 0.8rem;
+            margin-right: 15px;
+            margin-left: 15px;
+        }
+        &__added {
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.7rem;
+        }
+    }
+}

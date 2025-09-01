@@ -1,0 +1,40 @@
+.additional-review-form {
+    width: 100%;
+    height: fit-content;
+    box-shadow: 2px 1px 20px -3px rgba(34, 60, 80, 0.15);
+    border-radius: 0 0 20px 20px;
+    &__actions {
+        display: flex;
+        flex-direction: row;
+    }
+    &__buttons {
+        margin-left: auto;
+    }
+    &.hide-with-animation {
+        margin-top: -30px;
+        visibility: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-50px);
+        transition: opacity 0.5s, max-height 0.2s, transform 1s;
+    }
+    &.show-with-animation {
+        visibility: visible;
+        max-height: 100vh;
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.5s 0.2s, max-height 1s, transform 1s;
+    }
+}
+
+@media (max-width: 480px) {
+    .additional-review-form {
+        &__actions {
+            flex-direction: column;
+        }
+        &__buttons {
+            margin-top: 10px;
+            margin-left: 0;
+        }
+    }
+}

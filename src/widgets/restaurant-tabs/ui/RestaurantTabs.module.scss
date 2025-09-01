@@ -1,0 +1,54 @@
+@use "variables";
+
+.restaurants-tabs {
+    &__container {
+        width: 100%;
+        margin: 0 auto;
+        color: variables.$primary-text;
+        min-height: 400px;
+        padding-bottom: 100px;
+    }
+
+    &__description {
+        width: 65%;
+        margin-top: 40px;
+        font-weight: 300;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        background-color: #f4f4f4;
+        border-radius: 15px;
+        padding: 30px;
+    }
+    &__menu {
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+    &__map {
+        height: 500px;
+        width: 70%;
+        border-radius: 10px;
+        box-shadow: 2px 1px 20px -3px rgba(21, 35, 47, 0.3);
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 980px) {
+    .restaurants-tabs {
+        &__description {
+            width: 90%;
+        }
+    }
+}
+@media (max-width: 480px) {
+    .restaurants-tabs {
+        &__description {
+            width: 100%;
+        }
+        &__map {
+            width: 100%;
+            height: 400px;
+        }
+    }
+}

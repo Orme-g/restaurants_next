@@ -1,7 +1,7 @@
 import React from "react";
 import CarouselCards from "@/shared/ui/carousel/CarouselCards";
-import RestaurantCard from "@/entities/restaurant/ui/RestaurantCard";
-import { getRestaurantsBySortCriteria } from "@/entities/restaurant/services/restaurants.service";
+import RestaurantCard from "@/entities/restaurant/ui/restaurant-card/RestaurantCard";
+import { getRestaurantsBySortCriteria } from "@/entities/restaurant/services/restaurant.service";
 import { connectMongoose } from "@/server/db/mongoose";
 import prepareCousineList from "@/entities/restaurant/lib/prepareCousineList";
 import styles from "./RestaurantSelection.module.scss";

@@ -3,7 +3,7 @@ import * as usersRepo from "../../user/repositories/users.repo";
 
 import mongoose from "mongoose";
 
-import { updateRestaurantRating } from "../../restaurant/services/restaurants.service";
+import { updateRestaurantRating } from "../../restaurant/services/restaurant.service";
 
 import { INewReview, IAdditionalReview } from "../models/review.validators";
 

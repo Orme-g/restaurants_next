@@ -4,7 +4,7 @@ import Image from "next/image";
 import Rating from "@mui/material/Rating";
 import styles from "./RestaurantCard.module.scss";
 
-import type { IContentItem } from "../models/restaurant.types";
+import type { IContentItem } from "../../models/restaurant.types";
 
 interface IRestaurantCardProps {
     image: string;

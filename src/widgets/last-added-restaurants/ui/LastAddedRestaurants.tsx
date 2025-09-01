@@ -1,7 +1,7 @@
 import styles from "./LastAddedRestaurants.module.scss";
-import RestaurantCard from "@/entities/restaurant/ui/RestaurantCard";
+import RestaurantCard from "@/entities/restaurant/ui/restaurant-card/RestaurantCard";
 import { connectMongoose } from "@/server/db/mongoose";
-import { getNewlyAddedRestaurants } from "@/entities/restaurant/services/restaurants.service";
+import { getNewlyAddedRestaurants } from "@/entities/restaurant/services/restaurant.service";
 import type { IContentItem } from "@/entities/restaurant/models/restaurant.types";
 
 const LastAddedRestaurants = async () => {

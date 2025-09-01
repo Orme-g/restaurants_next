@@ -26,7 +26,10 @@ const RestaurantInfo: React.FC<IRestaurantInfoProps> = ({
 }) => {
     return (
         <div className={styles["restaurant-info"]}>
-            <FavouriteButton isFavourite={true} restId={restId} />
+            <div className={styles["restaurant-info__favourite-button"]}>
+                <FavouriteButton isFavourite={true} restId={restId} />
+            </div>
+
             <div className={styles["restaurant-info__rating"]}>
                 Рейтинг: <br />
                 <div className={styles["restaurant-info__rating_stars-and-marks"]}>

@@ -1,0 +1,38 @@
+.header-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.article-card {
+    cursor: pointer;
+    display: block;
+    transition: 0.5s transform;
+    &:hover {
+        transform: translateX(20px);
+    }
+    &__name {
+        font-size: 1.4rem;
+    }
+    &__created-date {
+        font-style: italic;
+        font-weight: 300;
+        font-size: 1.1rem;
+    }
+    &__description {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        line-height: 1.5;
+    }
+    &__rating {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 15px 20px;
+    }
+}

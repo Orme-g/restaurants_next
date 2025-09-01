@@ -2,7 +2,7 @@ import "server-only";
 
 import { Schema, model, models } from "mongoose";
 
-const donerSchema = new Schema(
+const articleSchema = new Schema(
     {
         name: {
             type: String,
@@ -25,6 +25,6 @@ const donerSchema = new Schema(
     { timestamps: true }
 );
 
-const Doner = models.Doner || model("Doner", donerSchema);
+const Article = models.Article || model("Article", articleSchema, "doners");
 
-export default Doner;
+export default Article;

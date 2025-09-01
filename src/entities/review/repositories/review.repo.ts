@@ -5,8 +5,8 @@ import type { IReview } from "../models/review.types";
 import type { INewReview } from "../models/review.validators";
 import type { ClientSession } from "mongoose";
 
-export async function getReviewsByRestaurantId(restaurantId: string) {
-    return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean();
+export async function getReviewsByRestaurantId(restaurantId: string): Promise<IReview[]> {
+    return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean<IReview[]>();
 }
 
 export async function saveNewRestaurantReview(review: INewReview, session?: ClientSession) {

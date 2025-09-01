@@ -1,4 +1,4 @@
-import * as restaurantRepo from "../repositories/restaurants.repo";
+import * as restaurantRepo from "../repositories/restaurant.repo";
 
 import type { IRestaurantSearchCriteria } from "../models/restaurant.validators";
 import type { TRestaurantSortCriteria } from "../models/restaurant.types";
