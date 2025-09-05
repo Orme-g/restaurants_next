@@ -1,7 +1,18 @@
 import "server-only";
 
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
+const blogDataSchema = new Schema(
+    {
+        blogerName: { type: String, required: true },
+        blogPosts: [String],
+        blogerRating: { type: Number, default: 0 },
+        aboutMe: { type: String, required: true },
+        blogAvatar: { type: String, required: true },
+        blogCity: String,
+    },
+    { _id: false }
+);
 const userSchema = new Schema(
     {
         username: {
@@ -22,18 +33,18 @@ const userSchema = new Schema(
             type: String,
         },
         role: {
-            type: Array,
+            type: [String],
             default: "User",
             required: true,
         },
         birthday: Date,
 
-        registeAt: {
-            // Change to CreatedAt!
-            type: Date,
-            default: () => Date.now(),
-            immutable: true,
-        },
+        // registeAt: {
+        //     // Changed to CreatedAt!
+        //     type: Date,
+        //     default: () => Date.now(),
+        //     immutable: true,
+        // },
         avatar: {
             type: String,
             default: null,
@@ -48,24 +59,31 @@ const userSchema = new Schema(
             default: 0,
         },
         reviewedRestaurants: {
-            type: Array,
+            type: [String],
+            default: [],
         },
-        favouriteRestaurants: [],
-        ratedComments: [],
-        rating: Number,
+        favouriteRestaurants: {
+            type: [[String]],
+            default: [],
+        },
+        ratedComments: {
+            type: [String],
+            default: [],
+        },
+        rating: { type: Number, default: 0 },
         bloger: {
             type: Boolean,
             default: false,
         },
         blogData: {
-            type: Object,
-            default: null,
+            type: blogDataSchema,
         },
-        ratedBlogPosts: Array,
+        ratedBlogPosts: { type: [String], default: [] },
     },
     { timestamps: true }
 );
 
+export type TUserSchema = InferSchemaType<typeof userSchema>;
 const User = models.User || model("User", userSchema);
 
 export default User;

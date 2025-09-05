@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectMongoose } from "@/server/db/mongoose";
+import { connectMongoose } from "@/shared/db/mongoose";
 import { getRestaurantProfile } from "@/entities/restaurant/services/restaurant.service";
 
 export const runtime = "nodejs";

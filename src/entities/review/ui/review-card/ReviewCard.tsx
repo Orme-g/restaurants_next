@@ -13,15 +13,16 @@ import { Rating } from "@mui/material";
 // import type { IReview } from "../../types/restaurantsTypes";
 import calculateExperience from "@/entities/user/lib/calculateExperience";
 import transformDate from "@/shared/lib/transfromDate";
-import type { IReview } from "../../models/review.types";
+import type { TReview } from "../../models/review.types";
 
 import styles from "./ReviewCard.module.scss";
 
 interface ReviewItemProps {
-    data: IReview;
+    data: TReview;
+    addExtraReviewButton?: React.ReactNode;
 }
 
-const ReviewCard: React.FC<ReviewItemProps> = ({ data }) => {
+const ReviewCard: React.FC<ReviewItemProps> = ({ data, addExtraReviewButton }) => {
     // const [displayAdditionForm, setDisplayAdditionForm] = useState<boolean>(false);
     const {
         userId,
@@ -31,7 +32,7 @@ const ReviewCard: React.FC<ReviewItemProps> = ({ data }) => {
         createdAt,
         additionalReview,
         _id: reviewId,
-        restaurant,
+        restId,
     } = data;
     const date = transformDate(createdAt);
     return (
@@ -74,6 +75,8 @@ const ReviewCard: React.FC<ReviewItemProps> = ({ data }) => {
                 <div className={styles["review-item__body_content"]}>{dislike}</div>
                 <div className={styles["review-item__body_title"]}>Оценка:</div>
                 <div className={styles["review-item__body_content"]}>{rating}</div>
+
+                {addExtraReviewButton}
             </div>
         </div>
     );

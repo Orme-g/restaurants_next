@@ -1,6 +1,6 @@
 import styles from "./LastAddedRestaurants.module.scss";
 import RestaurantCard from "@/entities/restaurant/ui/restaurant-card/RestaurantCard";
-import { connectMongoose } from "@/server/db/mongoose";
+import { connectMongoose } from "@/shared/db/mongoose";
 import { getNewlyAddedRestaurants } from "@/entities/restaurant/services/restaurant.service";
 import type { IContentItem } from "@/entities/restaurant/models/restaurant.types";
 

@@ -2,7 +2,8 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { getArticleById } from "@/entities/article/services/article.service";
 import CarouselImages from "@/shared/ui/carousel/CarouselImages";
-import { connectMongoose } from "@/server/db/mongoose";
+import CommentsBlock from "@/widgets/comments-block/CommentsBlock";
+import { connectMongoose } from "@/shared/db/mongoose";
 import transformDate from "@/shared/lib/transfromDate";
 import styles from "./page.module.scss";
 
@@ -70,7 +71,9 @@ const ArticlePage: React.FC<IArticlePageProps> = async ({ params }) => {
                     Опубликовано: <span>{transformDate(createdAt)}</span>
                 </div>
             </div>
-            <div className={styles["article__comments"]}>Пока нет блока комментариев....</div>
+            <div className={styles["article__comments"]}>
+                <CommentsBlock />
+            </div>
         </section>
     );
 };

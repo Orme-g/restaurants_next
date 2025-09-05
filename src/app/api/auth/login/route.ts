@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectMongoose } from "@/server/db/mongoose";
+import { connectMongoose } from "@/shared/db/mongoose";
 import { loginUser } from "@/processes/auth/services/auth.service";
 import type { ILoginData } from "@/processes/auth/model/auth.validators";
 

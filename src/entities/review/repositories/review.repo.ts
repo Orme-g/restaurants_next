@@ -1,12 +1,12 @@
 import "server-only";
 
 import Review from "../models/review.schema";
-import type { IReview } from "../models/review.types";
+import type { TReview } from "../models/review.types";
 import type { INewReview } from "../models/review.validators";
 import type { ClientSession } from "mongoose";
 
-export async function getReviewsByRestaurantId(restaurantId: string): Promise<IReview[]> {
-    return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean<IReview[]>();
+export async function getReviewsByRestaurantId(restaurantId: string): Promise<TReview[]> {
+    return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean<TReview[]>();
 }
 
 export async function saveNewRestaurantReview(review: INewReview, session?: ClientSession) {
@@ -17,10 +17,10 @@ export async function saveNewRestaurantReview(review: INewReview, session?: Clie
 export async function getReviewById(
     reviewId: string,
     session?: ClientSession
-): Promise<IReview | null> {
+): Promise<TReview | null> {
     return Review.findById(reviewId)
         .session(session ?? null)
-        .lean<IReview>();
+        .lean<TReview>();
 }
 export async function addAdditionalReviewToExisting(
     reviewId: string,

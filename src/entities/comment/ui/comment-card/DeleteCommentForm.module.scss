@@ -1,0 +1,26 @@
+@use "variables";
+.delete-form {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: fit-content;
+    width: 450px;
+    background-color: #fff;
+    border: 1px solid variables.$green-color;
+    border-radius: 3px;
+    z-index: 99;
+    &__title {
+        font-size: 22px;
+        font-weight: 300;
+        margin: 10px 20px;
+    }
+    &__text-field {
+        margin: 10px 20px;
+    }
+    &__buttons {
+        margin: 10px 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+}

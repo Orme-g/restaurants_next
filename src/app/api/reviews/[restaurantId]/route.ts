@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllReviewsForRestaurant } from "@/entities/review/services/review.service";
-import { connectMongoose } from "@/server/db/mongoose";
+import { connectMongoose } from "@/shared/db/mongoose";
 
 export const runtime = "nodejs";
 

@@ -1,3 +1,6 @@
+// Переписать. В Таб просто передаёт список и компоненты которые рендерятся, а не отдельный виджет
+// Выносим в shared
+
 "use client";
 import React, { useState } from "react";
 import { Tab, Box } from "@mui/material";
@@ -6,10 +9,10 @@ import RestaurantDescription from "@/entities/restaurant/ui/restaurant-descripti
 import ReviewsBlock from "@/widgets/reviews-block/ReviewsBlock";
 
 import styles from "./RestaurantTabs.module.scss";
-import type { IReview } from "@/entities/review/models/review.types";
+import type { TReview } from "@/entities/review/models/review.types";
 
 interface IRestaurantTabsProps {
-    reviews: IReview[];
+    reviews: TReview[];
 }
 
 const RestaurantTabs: React.FC<IRestaurantTabsProps> = ({ reviews }) => {

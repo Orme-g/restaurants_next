@@ -2,16 +2,13 @@ import "server-only";
 
 import User from "../models/user.schema";
 
-import type { IUserData } from "../models/user.types";
+import type { TUser } from "../models/user.types";
 import type { ClientSession } from "mongoose";
 
-export async function findUserById(
-    userId: string,
-    session?: ClientSession
-): Promise<IUserData | null> {
+export async function findUserById(userId: string, session?: ClientSession): Promise<TUser | null> {
     return User.findById(userId)
         .session(session ?? null)
-        .lean<IUserData>();
+        .lean<TUser>();
 }
 
 export async function addReviewedRestaurantToUser(

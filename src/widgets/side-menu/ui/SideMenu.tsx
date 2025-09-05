@@ -46,7 +46,7 @@ const SideMenu = () => {
                         <ListItemText primary="Подобрать ресторан" />
                     </ListItemButton>
                 </Link>
-                <Link href="/best-doner">
+                <Link href="/doner-articles">
                     <ListItemButton onClick={() => toggleSideMenu()}>
                         <ListItemIcon>
                             <FontAwesomeIcon icon={faStar} />

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const restaurantSchema = new Schema(
     {
@@ -23,7 +23,10 @@ const restaurantSchema = new Schema(
                 required: true,
             },
         ],
-        title_image: String,
+        title_image: {
+            type: String,
+            required: true,
+        },
         cousine: [
             {
                 type: String,
@@ -70,7 +73,7 @@ const restaurantSchema = new Schema(
 //     }
 //     next();
 // });
-
+export type TRestaurantSchema = InferSchemaType<typeof restaurantSchema>;
 const Restaurant = models.Restaurant || model("Restaurant", restaurantSchema);
 
 export default Restaurant;

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const articleSchema = new Schema(
     {
@@ -8,15 +8,18 @@ const articleSchema = new Schema(
             type: String,
             required: true,
         },
-        subtitle: String,
-        title_image: String,
+        subtitle: { type: String, required: true },
+        title_image: { type: String, required: true },
         short_description: {
             type: String,
             required: true,
         },
-        content: Object,
+        content: {
+            type: [Schema.Types.Mixed],
+            required: true,
+        },
 
-        author: String,
+        author: { type: String, required: true },
         rating: {
             type: Number,
             required: true,
@@ -24,6 +27,8 @@ const articleSchema = new Schema(
     },
     { timestamps: true }
 );
+
+export type TArticleSchema = InferSchemaType<typeof articleSchema>;
 
 const Article = models.Article || model("Article", articleSchema, "doners");
 

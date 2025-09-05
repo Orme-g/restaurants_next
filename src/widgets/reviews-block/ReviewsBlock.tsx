@@ -1,11 +1,12 @@
 import React from "react";
-import ReviewForm from "@/features/review/add-review/ReviewForm";
+import ReviewForm from "@/features/review/add-review-form/ReviewForm";
 import ReviewCard from "@/entities/review/ui/review-card/ReviewCard";
-import ToggleAdditionalReview from "@/features/review/toggle-additional-review/ToggleAdditionalReview";
-import type { IReview } from "@/entities/review/models/review.types";
+import ReviewCardWithAddition from "@/entities/review/ui/review-card/ReviewCardWithAddition";
+import ReviewCardWithForm from "@/entities/review/ui/review-card/ReviewCardWithForm";
+import type { TReview } from "@/entities/review/models/review.types";
 import styles from "./ReviewsBlock.module.scss";
 interface IReviewsBlockProps {
-    reviews: IReview[];
+    reviews: TReview[];
 }
 
 const ReviewsBlock: React.FC<IReviewsBlockProps> = ({ reviews }) => {
@@ -14,9 +15,10 @@ const ReviewsBlock: React.FC<IReviewsBlockProps> = ({ reviews }) => {
             <ReviewForm restId="123123" />
             {reviews.map((item, index) => {
                 return item.additionalReview ? (
-                    <ToggleAdditionalReview key={index} data={item} />
+                    <ReviewCardWithAddition key={index} data={item} />
                 ) : (
-                    <ReviewCard key={index} data={item} />
+                    // <ReviewCard key={index} data={item} />
+                    <ReviewCardWithForm key={index} data={item} />
                 );
             })}
         </section>

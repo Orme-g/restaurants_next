@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import ReviewCard from "@/entities/review/ui/review-card/ReviewCard";
 import AdditionalReviewCard from "@/entities/review/ui/additional-review-card/AdditionalReviewCard";
-import styles from "./ToggleAdditionalReview.module.scss";
-import type { IReview } from "@/entities/review/models/review.types";
+import styles from "./ReviewCardWithAddition.module.scss";
+import type { TReview } from "@/entities/review/models/review.types";
 
 interface IToggleExtraReviewProps {
-    data: IReview;
+    data: TReview;
 }
-const ToggleAdditionalReview: React.FC<IToggleExtraReviewProps> = ({ data }) => {
+const ReviewCardWithAddition: React.FC<IToggleExtraReviewProps> = ({ data }) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const interactiveText = isVisible ? "Скрыть отзыв" : "Отзыв дополнен";
     function toggleDisplExtrtaReview() {
@@ -42,4 +42,4 @@ const ToggleAdditionalReview: React.FC<IToggleExtraReviewProps> = ({ data }) => 
         </div>
     );
 };
-export default ToggleAdditionalReview;
+export default ReviewCardWithAddition;

@@ -1,37 +1,37 @@
 import "server-only";
 import Restaurant from "../models/restaurant.schema";
 
-import type { IRestaurant } from "../models/restaurant.types";
-import type { ClientSession } from "mongoose";
+import type { TRestaurant } from "../models/restaurant.types";
+import type * as mongoose from "mongoose";
 
-export async function getLastAddedRestaurants(limit = 6): Promise<IRestaurant[]> {
-    return Restaurant.find().sort({ createdAt: -1 }).limit(limit).lean<IRestaurant[]>();
+export async function getLastAddedRestaurants(limit = 6): Promise<TRestaurant[]> {
+    return Restaurant.find().sort({ createdAt: -1 }).limit(limit).lean<TRestaurant[]>();
 }
 
 export async function getRestaurantById(
     id: string,
-    session?: ClientSession
-): Promise<IRestaurant | null> {
+    session?: mongoose.ClientSession
+): Promise<TRestaurant | null> {
     return Restaurant.findById(id)
         .session(session ?? null)
-        .lean<IRestaurant>();
+        .lean<TRestaurant>();
 }
 
 export async function getSortedRestaurants(
     sortType: { bill: 1 | -1 } | { averageRating: -1 },
     limit: number
-): Promise<IRestaurant[]> {
-    return Restaurant.find().sort(sortType).limit(limit).lean<IRestaurant[]>();
+): Promise<TRestaurant[]> {
+    return Restaurant.find().sort(sortType).limit(limit).lean<TRestaurant[]>();
 }
 
 export async function findRestaurantByCriteria(
     subway: string,
     cousine: string,
     sort: 1 | -1
-): Promise<IRestaurant[]> {
+): Promise<TRestaurant[]> {
     return Restaurant.find({ cousine: { $in: cousine }, subway: { $in: [subway] } })
         .sort({ bill: sort })
-        .lean<IRestaurant[]>();
+        .lean<TRestaurant[]>();
 }
 
 export async function findRestaurantByNameInput(
@@ -49,7 +49,7 @@ export async function updateRatingAndAverageRating(
     restaurantId: string,
     rating: number,
     newAverageRating: number,
-    session?: ClientSession
+    session?: mongoose.ClientSession
 ) {
     return Restaurant.findByIdAndUpdate(
         restaurantId,

@@ -1,26 +1,24 @@
 import "server-only";
 
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const reviewSchema = new Schema(
     {
-        name: String,
-        avatar: String,
-        like: String,
-        dislike: String,
-        rating: Number,
-        restaurant: String,
-        userId: String,
+        like: { type: String, required: true },
+        dislike: { type: String, required: true },
+        rating: { type: Number, required: true },
+        restId: { type: String, required: true },
+        userId: { type: String, required: true },
         additionalReview: {
-            like: String,
-            dislike: String,
-            rating: Number,
-            added: Date,
+            like: { type: String, required: true },
+            dislike: { type: String, required: true },
+            rating: { type: Number, required: true },
+            added: { type: Date, default: () => Date.now() },
         },
     },
     { timestamps: true }
 );
-
+export type TReviewSchema = InferSchemaType<typeof reviewSchema>;
 const Review = models.Review || model("Review", reviewSchema);
 
 export default Review;

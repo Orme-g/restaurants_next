@@ -1,6 +1,6 @@
 import ArticleLongCard from "@/entities/article/ui/article-long-card/ArticleLongCard";
 import { getAllDonerArticles } from "@/entities/article/services/article.service";
-import { connectMongoose } from "@/server/db/mongoose";
+import { connectMongoose } from "@/shared/db/mongoose";
 import transformDate from "@/shared/lib/transfromDate";
 import styles from "./page.module.scss";
 const DonerArticles = async () => {
