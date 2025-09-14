@@ -5,12 +5,13 @@ import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { authStore } from "@/shared/store/auth.store";
 
 interface IToggleUserMenuButtonProps {
     handleProfile: (event: React.MouseEvent<HTMLElement>) => void;
-    isAuth: boolean;
 }
-const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProfile, isAuth }) => {
+const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProfile }) => {
+    const isAuth = authStore((state) => state.isAuth);
     const ifAuth = (
         <IconButton
             size="large"
@@ -23,7 +24,7 @@ const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProf
     );
     const ifUnauth = (
         <Button color="inherit">
-            <Link href={`/login`}>Войти</Link>
+            <Link href={`/auth/login`}>Войти</Link>
         </Button>
     );
     return isAuth ? ifAuth : ifUnauth;

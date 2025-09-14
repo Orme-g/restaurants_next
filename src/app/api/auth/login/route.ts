@@ -10,8 +10,9 @@ export async function POST(request: NextRequest) {
     try {
         const loginData: ILoginData = await request.json();
         const result = await loginUser(loginData);
-        const { accessToken, refreshToken, name } = result;
-        const response = NextResponse.json({ message: `Здравствуйте, ${name}` });
+        const { accessToken, refreshToken, name, username, id, role } = result;
+        // const response = NextResponse.json({ message: `Здравствуйте, ${name}` });
+        const response = NextResponse.json({ name, username, id, role }, { status: 200 });
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
@@ -27,8 +28,8 @@ export async function POST(request: NextRequest) {
         return response;
     } catch (error) {
         if (error instanceof Error) {
-            return NextResponse.json({ message: error.message }, { status: 500 });
+            return NextResponse.json({ message: error.message }, { status: 401 });
         }
-        return NextResponse.json({ message: "Неизвестная ошибка авторизации" }, { status: 500 });
+        return NextResponse.json({ message: "Неизвестная ошибка авторизации" }, { status: 401 });
     }
 }

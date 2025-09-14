@@ -4,16 +4,21 @@ import Link from "next/link";
 import { Menu, MenuItem, ListItemIcon } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUserTie, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useLogout } from "../api/useLogout";
+import type { IUserStoreData } from "@/entities/user/models/user.types";
 
 import styles from "./UserMenu.module.scss";
 
 interface IUserMenuProps {
     anchorEl: HTMLElement | null;
     handleClose: () => void;
-    isAdmin: boolean;
+    userData: IUserStoreData;
 }
 
-const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, isAdmin }) => {
+const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, userData }) => {
+    const { name, role, id } = userData;
+    const isAdmin = role.includes("admin");
+    const { mutate: logout } = useLogout();
     const admin = (
         <Link href={`/admin`} onClick={handleClose}>
             <MenuItem>
@@ -27,8 +32,8 @@ const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, isAdmin }) 
     return (
         <>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                <div className={styles["menu__username"]}>User</div>
-                <Link href={`/profile`}>
+                <div className={styles["menu__username"]}>{name}</div>
+                <Link href={`/profile/${id}`}>
                     <MenuItem>
                         <ListItemIcon>
                             <FontAwesomeIcon icon={faUser} className={styles["menu__icon"]} />
@@ -37,7 +42,7 @@ const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, isAdmin }) 
                     </MenuItem>
                 </Link>
                 {isAdmin ? admin : null}
-                <MenuItem>
+                <MenuItem onClick={() => logout()}>
                     <ListItemIcon>
                         <FontAwesomeIcon
                             icon={faArrowRightFromBracket}

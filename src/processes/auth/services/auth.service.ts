@@ -2,7 +2,8 @@ import { SignJWT, jwtVerify, JWTPayload } from "jose";
 
 import bcrypt from "bcrypt";
 
-import * as repo from "../repositories/auth.repo";
+import * as authRepo from "../repositories/auth.repo";
+// import * as usersRepo from "@/entities/user/repositories/users.repo";
 
 import type { ILoginData } from "@/processes/auth/model/auth.validators";
 
@@ -16,7 +17,7 @@ const secret = new TextEncoder().encode(secretKey);
 
 export async function loginUser(loginData: ILoginData) {
     const { username, password } = loginData;
-    const user = await repo.findUserByUsername(username);
+    const user = await authRepo.findUserByUsername(username);
     if (!user) throw new Error("Неверный логин или пароль");
     const checkPassword = bcrypt.compareSync(password, user.password);
     if (!checkPassword) throw new Error("Неверный логин или пароль");
@@ -34,8 +35,19 @@ export async function loginUser(loginData: ILoginData) {
         accessToken,
         refreshToken,
         name: user.name,
+        username: user.username,
+        id: user._id,
+        role: user.role,
     };
 }
+
+// export async function getUserAuthData(userId: string) {
+//     const user = await usersRepo.findUserById(userId);
+//     if (!user) {
+//         throw new Error("Пользователь не найден");
+//     }
+//     return { name: user.name, username: user.username, id: user._id, role: user.role };
+// }
 
 export async function generateNewAccessToken(refreshToken: string) {
     try {

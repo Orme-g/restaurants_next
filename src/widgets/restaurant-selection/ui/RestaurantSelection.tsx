@@ -39,7 +39,10 @@ const RestaurantSelection: React.FC<IRestaurantSelection> = async ({ title, sort
     return (
         <article>
             <div className={styles["selection__title"]}>{title}</div>
-            <CarouselCards cards={cards} />
+            <div className={styles["selection__carousel"]}>
+                <CarouselCards cards={cards} />
+            </div>
+            {/* <CarouselCards cards={cards} /> */}
         </article>
     );
 };

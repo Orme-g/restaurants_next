@@ -22,7 +22,7 @@ const CarouselCards: React.FC<ICarouselCardsProps> = ({ cards }) => {
                 {
                     "--swiper-navigation-color": "#c9c9c9",
                     padding: "20px 10px",
-                    height: "300px",
+                    height: "100%",
                 } as React.CSSProperties
             }
             breakpoints={{

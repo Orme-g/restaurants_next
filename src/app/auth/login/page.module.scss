@@ -1,0 +1,36 @@
+@use "variables";
+
+.login-page {
+    min-height: 800px;
+    background-color: #ececec;
+    display: flex;
+    justify-content: center;
+    &__content {
+        padding-top: 150px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    &__title {
+        text-align: center;
+        font-size: 1.5rem;
+        color: variables.$primary-text;
+        width: 90%;
+        margin-bottom: 15px;
+    }
+    &__form {
+        height: fit-content;
+        width: 400px;
+    }
+}
+
+@media (max-width: 420px) {
+    .login-page {
+        &__form {
+            width: 100%;
+        }
+    }
+}

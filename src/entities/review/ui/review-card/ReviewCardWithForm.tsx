@@ -28,7 +28,7 @@ const ReviewCardWithForm: React.FC<IReviewCardWithFormProps> = ({ data }) => {
         </div>
     );
     return (
-        <div className="review-card-with-form">
+        <div className={styles["review-card-with-form"]}>
             <ReviewCard data={data} addExtraReviewButton={addExtraReviewButton} />
             <AdditionalReviewForm
                 restId="123"

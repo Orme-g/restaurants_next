@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
             "images.vfl.ru",
             "www.restoclub.ru",
             "vkus-eda-dostavka.ru",
+            "eda.yandex",
+            "avatars.mds.yandex.net",
         ],
     },
 };

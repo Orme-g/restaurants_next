@@ -28,7 +28,9 @@ const RestaurantSearchBar = () => {
         setDisplayListState("show");
     }
     function handleBlur() {
-        setDisplayListState("hide");
+        setTimeout(() => {
+            setDisplayListState("hide");
+        }, 200);
     }
     let results;
     if (data) {
@@ -37,7 +39,7 @@ const RestaurantSearchBar = () => {
                 return (
                     <Link
                         key={_id}
-                        href={`restaurants/${_id}`}
+                        href={`restaurant/${_id}`}
                         className={styles["search-results__item"]}
                     >
                         {name}

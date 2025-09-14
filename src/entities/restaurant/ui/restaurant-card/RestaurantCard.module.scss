@@ -1,12 +1,12 @@
 .restaurant-card {
     display: block;
     overflow: hidden;
-    // height: 270px;
+    height: 100%;
     width: 100%;
     border-radius: 10px;
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     &__image-wrapper {
-        height: 60%;
+        height: 55%;
         width: 100%;
         aspect-ratio: 16 / 9;
         overflow: hidden;
@@ -29,7 +29,7 @@
     }
     &__content {
         height: 28%;
-        padding: 5px 15px;
+        padding: 0 15px;
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -40,12 +40,13 @@
     }
     &__cousines {
         order: 2;
+        font-size: 1rem;
     }
     &__bill {
         order: 3;
     }
     &__rating {
         order: 4;
-        margin-top: auto;
+        // margin-top: auto;
     }
 }

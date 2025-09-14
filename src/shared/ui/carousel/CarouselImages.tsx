@@ -1,5 +1,5 @@
 "use client";
-
+// Styles in globals.scss
 import React, { useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";

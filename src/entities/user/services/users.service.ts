@@ -9,3 +9,10 @@ export async function getUserById(userId: string) {
     }
     return user;
 }
+export async function getUserAuthData(userId: string) {
+    const user = await usersRepo.findUserById(userId);
+    if (!user) {
+        throw new Error("Пользователь не найден");
+    }
+    return { name: user.name, username: user.username, id: user._id, role: user.role };
+}
