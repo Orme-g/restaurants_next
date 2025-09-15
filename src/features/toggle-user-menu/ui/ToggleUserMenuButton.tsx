@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +12,7 @@ interface IToggleUserMenuButtonProps {
     handleProfile: (event: React.MouseEvent<HTMLElement>) => void;
 }
 const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProfile }) => {
+    const pathname = usePathname();
     const isAuth = authStore((state) => state.isAuth);
     const ifAuth = (
         <IconButton
@@ -24,7 +26,7 @@ const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProf
     );
     const ifUnauth = (
         <Button color="inherit">
-            <Link href={`/auth/login`}>Войти</Link>
+            <Link href={`/auth/login?redirect=${pathname}`}>Войти</Link>
         </Button>
     );
     return isAuth ? ifAuth : ifUnauth;

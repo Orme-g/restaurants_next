@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import * as authRepo from "../repositories/auth.repo";
 // import * as usersRepo from "@/entities/user/repositories/users.repo";
 
-import type { ILoginData } from "@/processes/auth/model/auth.validators";
+import type { TLoginData, TRegisterData } from "@/processes/auth/model/auth.validators";
 
 interface CustomJWTPayload extends JWTPayload {
     id: string;
@@ -15,11 +15,22 @@ const secretKey = process.env.JWT_SECRET;
 if (!secretKey) throw new Error("JWT key is not provided!");
 const secret = new TextEncoder().encode(secretKey);
 
-export async function loginUser(loginData: ILoginData) {
+export async function registerUser(registerData: TRegisterData) {
+    const { username, password } = registerData;
+    const userExist = await authRepo.findUserByUsername(username);
+    if (userExist) {
+        throw new Error("Пользователь с таким именем уже существует");
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
+    const newUser = await authRepo.createNewUser({ ...registerData, password: hashPassword });
+    return newUser;
+}
+
+export async function loginUser(loginData: TLoginData) {
     const { username, password } = loginData;
     const user = await authRepo.findUserByUsername(username);
     if (!user) throw new Error("Неверный логин или пароль");
-    const checkPassword = bcrypt.compareSync(password, user.password);
+    const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) throw new Error("Неверный логин или пароль");
     const accessToken = await new SignJWT({ id: user._id })
         .setProtectedHeader({ alg: "HS256" })

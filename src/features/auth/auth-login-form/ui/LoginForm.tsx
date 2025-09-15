@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Stack, TextField, Button } from "@mui/material";
 import Link from "next/link";
 import { useLogin } from "../api/useLogin";
-import type { ILoginDTO } from "../models/login.types";
+import { TLoginData } from "@/processes/auth/model/auth.validators";
 import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
@@ -21,7 +21,7 @@ const LoginForm = () => {
         },
     });
     const { mutate: login } = useLogin();
-    async function onSubmit(data: ILoginDTO) {
+    async function onSubmit(data: TLoginData) {
         login(data);
         reset();
     }
@@ -54,7 +54,7 @@ const LoginForm = () => {
                 ) : null}
                 <div className={styles["login-form__actions"]}>
                     <Button type="submit">Войти</Button>
-                    <Link href={"/register"} className={styles["login-form__link"]}>
+                    <Link href={"/auth/register"} className={styles["login-form__link"]}>
                         Регистрация
                     </Link>
                 </div>

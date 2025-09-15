@@ -5,4 +5,15 @@ export const loginDataSchema = z.object({
     password: z.string(),
 });
 
-export type ILoginData = z.infer<typeof loginDataSchema>;
+export type TLoginData = z.infer<typeof loginDataSchema>;
+
+export const registerDataSchema = z.object({
+    username: z.string(),
+    name: z.string(),
+    surname: z.string(),
+    birthday: z.date().nullable(),
+    email: z.string(),
+    password: z.string(),
+});
+
+export type TRegisterData = z.infer<typeof registerDataSchema>;

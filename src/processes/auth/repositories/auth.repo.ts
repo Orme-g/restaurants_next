@@ -2,6 +2,7 @@ import "server-only";
 
 import User from "../../../entities/user/models/user.schema";
 import type { TUser } from "@/entities/user/models/user.types";
+import type { TRegisterData } from "../model/auth.validators";
 import type { ClientSession } from "mongoose";
 
 export async function findUserByUsername(
@@ -12,4 +13,9 @@ export async function findUserByUsername(
         .session(session ?? null)
         .lean<TUser>();
     return user;
+}
+
+export async function createNewUser(data: TRegisterData) {
+    const user = new User(data);
+    return user.save();
 }
