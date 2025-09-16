@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectMongoose } from "@/shared/db/mongoose";
 import { getUserAuthData } from "@/entities/user/services/users.service";
 
+export const runtime = "nodejs";
+
 export async function GET(request: NextRequest) {
     await connectMongoose();
     try {

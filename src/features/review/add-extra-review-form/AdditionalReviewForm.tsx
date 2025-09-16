@@ -9,7 +9,7 @@ import clsx from "clsx";
 import styles from "./AdditionalReviewForm.module.scss";
 
 // import type { IAddidionalReview } from "../../../types/restaurantsTypes";
-interface IAdditionalReviewFormProps {
+interface TAdditionalReviewFormProps {
     reviewId: string;
     restId: string;
     displayStatus: boolean;
@@ -20,7 +20,7 @@ interface SubmitCredentials {
     dislike: string;
 }
 
-const AdditionalReviewForm: React.FC<IAdditionalReviewFormProps> = ({
+const AdditionalReviewForm: React.FC<TAdditionalReviewFormProps> = ({
     reviewId,
     restId,
     displayStatus,

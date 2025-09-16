@@ -1,0 +1,17 @@
+@use "variables";
+
+.register-form {
+    height: 100%;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: inherit;
+    &__actions {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+    &__error {
+        color: #d3302f;
+    }
+}

@@ -1,11 +1,12 @@
 import React from "react";
 
 import { Rating } from "@mui/material";
-import FavouriteButton from "@/features/toggle-favourite/ToggleFavouriteButton";
+import FavouriteButton from "@/features/user/toggle-favourite-restaurant/ui/ToggleFavouriteButton";
 import styles from "./RestaurantInfo.module.scss";
 
 interface IRestaurantInfoProps {
     restId: string;
+    name: string;
     averageRating: number;
     ratingCount: number;
     cousine: string;
@@ -16,6 +17,7 @@ interface IRestaurantInfoProps {
 }
 const RestaurantInfo: React.FC<IRestaurantInfoProps> = ({
     restId,
+    name,
     averageRating,
     ratingCount,
     cousine,
@@ -27,7 +29,7 @@ const RestaurantInfo: React.FC<IRestaurantInfoProps> = ({
     return (
         <div className={styles["restaurant-info"]}>
             <div className={styles["restaurant-info__favourite-button"]}>
-                <FavouriteButton isFavourite={true} restId={restId} />
+                <FavouriteButton restId={restId} restName={name} />
             </div>
 
             <div className={styles["restaurant-info__rating"]}>

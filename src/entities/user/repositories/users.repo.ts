@@ -11,6 +11,14 @@ export async function findUserById(userId: string, session?: ClientSession): Pro
         .lean<TUser>();
 }
 
+export async function isRestaurantFavourite(userId: string, restId: string) {
+    const exists = await User.exists({
+        _id: userId,
+        "favouriteRestaurants.id": restId,
+    });
+    return Boolean(exists);
+}
+
 export async function addReviewedRestaurantToUser(
     userId: string,
     restId: string,
@@ -21,4 +29,15 @@ export async function addReviewedRestaurantToUser(
         { $addToSet: { reviewedRestaurants: restId }, $inc: { reviews: 1 } },
         { new: true, session }
     );
+}
+
+export async function addRestaurantToFavourites(userId: string, restId: string, restName: string) {
+    return User.findByIdAndUpdate(userId, {
+        $addToSet: { favouriteRestaurants: { id: restId, name: restName } },
+    });
+}
+export async function removeRestaurantFromFavourites(userId: string, restId: string) {
+    return User.findByIdAndUpdate(userId, {
+        $pull: { favouriteRestaurants: { id: restId } },
+    });
 }

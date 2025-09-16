@@ -2,14 +2,14 @@ import "server-only";
 
 import Review from "../models/review.schema";
 import type { TReview } from "../models/review.types";
-import type { INewReview } from "../models/review.validators";
+import type { TNewReview } from "../models/review.validators";
 import type { ClientSession } from "mongoose";
 
 export async function getReviewsByRestaurantId(restaurantId: string): Promise<TReview[]> {
     return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean<TReview[]>();
 }
 
-export async function saveNewRestaurantReview(review: INewReview, session?: ClientSession) {
+export async function saveNewRestaurantReview(review: TNewReview, session?: ClientSession) {
     const newReview = new Review(review);
     return newReview.save({ session });
 }

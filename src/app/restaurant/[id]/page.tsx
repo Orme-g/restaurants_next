@@ -44,6 +44,7 @@ const Restaurant = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <div className={styles["restaurant-page__info"]}>
                     <RestaurantInfo
                         restId={id}
+                        name={name}
                         averageRating={averageRating}
                         bill={bill}
                         ratingCount={rating.length}

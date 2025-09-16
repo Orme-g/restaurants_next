@@ -32,12 +32,12 @@ export async function loginUser(loginData: TLoginData) {
     if (!user) throw new Error("Неверный логин или пароль");
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) throw new Error("Неверный логин или пароль");
-    const accessToken = await new SignJWT({ id: user._id })
+    const accessToken = await new SignJWT({ id: user._id.toString() })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime("15m")
         .sign(secret);
-    const refreshToken = await new SignJWT({ id: user._id })
+    const refreshToken = await new SignJWT({ id: user._id.toString() })
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime("30d")

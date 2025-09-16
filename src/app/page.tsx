@@ -1,5 +1,5 @@
 import React from "react";
-import RestaurantSearchBar from "@/features/restaurant-serach/ui/RestaurantSearchBar";
+import RestaurantSearchBar from "@/features/restaurant/restaurant-serach/ui/RestaurantSearchBar";
 import LastAddedRestaurants from "@/widgets/last-added-restaurants/ui/LastAddedRestaurants";
 import RestaurantSelection from "@/widgets/restaurant-selection/ui/RestaurantSelection";
 

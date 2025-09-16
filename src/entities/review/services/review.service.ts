@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 import { updateRestaurantRating } from "../../restaurant/services/restaurant.service";
 
-import { INewReview, IAdditionalReview } from "../models/review.validators";
+import { TNewReview, TAdditionalReview } from "../models/review.validators";
 
 export const runtime = "nodejs";
 
@@ -13,7 +13,7 @@ export async function getAllReviewsForRestaurant(restaurantId: string) {
     return reviewsRepo.getReviewsByRestaurantId(restaurantId);
 }
 
-export async function postNewRestaurantReview(review: INewReview, userId: string) {
+export async function postNewRestaurantReview(review: TNewReview, userId: string) {
     const session = await mongoose.startSession();
     try {
         const { restaurant: restId, rating } = review;
@@ -44,7 +44,7 @@ export async function postNewRestaurantReview(review: INewReview, userId: string
 }
 
 export async function postAdditionalReviewToExisting(
-    additionalReview: IAdditionalReview,
+    additionalReview: TAdditionalReview,
     userId: string
 ) {
     const session = await mongoose.startSession();

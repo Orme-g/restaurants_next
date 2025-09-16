@@ -63,7 +63,11 @@ const userSchema = new Schema(
             default: [],
         },
         favouriteRestaurants: {
-            type: [[String]],
+            type: {
+                name: { type: String, required: true },
+                id: { type: String, required: true },
+            },
+            _id: false,
             default: [],
         },
         ratedComments: {

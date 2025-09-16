@@ -3,7 +3,7 @@ import { Rating } from "@mui/material";
 import tranfsormDate from "@/shared/lib/transfromDate";
 import styles from "./AdditionalReviewCard.module.scss";
 
-interface IAdditionalReviewProps {
+interface TAdditionalReviewProps {
     additionalReviewData: {
         like: string;
         dislike: string;
@@ -12,7 +12,7 @@ interface IAdditionalReviewProps {
     };
 }
 
-const AdditionalReviewCard: React.FC<IAdditionalReviewProps> = ({ additionalReviewData }) => {
+const AdditionalReviewCard: React.FC<TAdditionalReviewProps> = ({ additionalReviewData }) => {
     const { like, dislike, rating, added } = additionalReviewData;
     const date = tranfsormDate(added);
     return (

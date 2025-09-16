@@ -16,3 +16,29 @@ export async function getUserAuthData(userId: string) {
     }
     return { name: user.name, username: user.username, id: user._id, role: user.role };
 }
+
+export async function getUserFavouriteRestaurantsList(userId: string) {
+    const user = await usersRepo.findUserById(userId);
+    if (!user) {
+        throw new Error("Пользователь не найден");
+    }
+    return user.favouriteRestaurants;
+}
+
+export async function checkIfRestaurantFavourite(userId: string, restId: string) {
+    const isFavourite = await usersRepo.isRestaurantFavourite(userId, restId);
+    return isFavourite;
+}
+
+export async function toggleFavouriteRestaurant(
+    userId: string,
+    restId: string,
+    restName: string,
+    favourite: boolean
+) {
+    if (favourite) {
+        return usersRepo.addRestaurantToFavourites(userId, restId, restName);
+    } else {
+        return usersRepo.removeRestaurantFromFavourites(userId, restId);
+    }
+}

@@ -54,7 +54,7 @@ const LoginForm = () => {
                 ) : null}
                 <div className={styles["login-form__actions"]}>
                     <Button type="submit">Войти</Button>
-                    <Link href={"/auth/register"} className={styles["login-form__link"]}>
+                    <Link href={"/register"} className={styles["login-form__link"]}>
                         Регистрация
                     </Link>
                 </div>

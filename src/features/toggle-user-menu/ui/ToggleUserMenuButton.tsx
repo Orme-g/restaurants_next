@@ -26,7 +26,7 @@ const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProf
     );
     const ifUnauth = (
         <Button color="inherit">
-            <Link href={`/auth/login?redirect=${pathname}`}>Войти</Link>
+            <Link href={`/login?redirect=${pathname}`}>Войти</Link>
         </Button>
     );
     return isAuth ? ifAuth : ifUnauth;

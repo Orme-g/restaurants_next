@@ -7,7 +7,7 @@ export const newReviewSchema = z.object({
     restaurant: z.string(),
     // userId from cookie
 });
-export type INewReview = z.infer<typeof newReviewSchema>;
+export type TNewReview = z.infer<typeof newReviewSchema>;
 
 export const additionalReviewSchema = z.object({
     reviewId: z.string(),
@@ -16,4 +16,4 @@ export const additionalReviewSchema = z.object({
     rating: z.number(),
     restId: z.string(),
 });
-export type IAdditionalReview = z.infer<typeof additionalReviewSchema>;
+export type TAdditionalReview = z.infer<typeof additionalReviewSchema>;

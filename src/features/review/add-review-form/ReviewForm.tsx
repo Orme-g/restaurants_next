@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { useForm } from "react-hook-form";
 import { Button, Stack, TextField, Rating } from "@mui/material";
 
-import type { INewReview } from "@/entities/review/models/review.validators";
+import type { TNewReview } from "@/entities/review/models/review.validators";
 
 import styles from "./ReviewForm.module.scss";
 
@@ -37,7 +37,7 @@ const ReviewForm: React.FC<IReviewForm> = ({ restId }) => {
 
     const onSubmit = (data: { like: string; dislike: string }) => {
         const { like, dislike } = data;
-        const review: INewReview = {
+        const review: TNewReview = {
             like,
             dislike,
             rating,

@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
     const accessToken = req.cookies.get("accessToken")?.value;
     if (!accessToken) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        return NextResponse.json(null, { status: 401 });
+        // return NextResponse.json(null, { status: 401 });
     }
     try {
         const decoded = (await jwtVerify(accessToken, secret)).payload as CustomJWTPayload;
@@ -29,5 +29,12 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/api/reviews/post-review", "/api/reviews/post-additional-review", "/api/auth/me"],
+    matcher: [
+        "/api/reviews/post-review",
+        "/api/reviews/post-additional-review",
+        "/api/auth/me",
+        "/api/user/favourite-restaurants",
+        "/api/user/check-favourite/:path*",
+        "/api/user/toggle-favourite",
+    ],
 };
