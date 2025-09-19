@@ -12,18 +12,18 @@ export function useHandleFavouriteRestaurant() {
             }),
         onMutate: async (variables) => {
             const { restId, favourite } = variables;
-            await queryClient.cancelQueries({ queryKey: ["favourite", restId] });
-            const prevValue = queryClient.getQueryData<boolean>(["favourite", restId]);
-            queryClient.setQueryData<boolean>(["favourite", restId], favourite);
+            await queryClient.cancelQueries({ queryKey: ["check-favourite", restId] });
+            const prevValue = queryClient.getQueryData<boolean>(["check-favourite", restId]);
+            queryClient.setQueryData<boolean>(["check-favourite", restId], favourite);
             return { prevValue };
         },
         onError: (error, variables, context) => {
             if (context?.prevValue !== undefined) {
-                queryClient.setQueryData(["favourite", variables.restId], context.prevValue);
+                queryClient.setQueryData(["check-favourite", variables.restId], context.prevValue);
             }
         },
         // onSuccess: (_, variables) => {
-        //     queryClient.invalidateQueries({ queryKey: ["favourite", variables.restId] });
+        //     queryClient.invalidateQueries({ queryKey: ["check-favourite", variables.restId] });
         // },
     });
 }

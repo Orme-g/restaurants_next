@@ -15,7 +15,8 @@ export async function findUserByUsername(
     return user;
 }
 
-export async function createNewUser(data: TRegisterData) {
+export async function createNewUser(data: TRegisterData): Promise<TUser> {
     const user = new User(data);
-    return user.save();
+    const newUser = await user.save();
+    return newUser.toObject();
 }

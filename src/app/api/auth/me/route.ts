@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
             throw new Error("Ошибка получения ID пользователя");
         }
         const userAuthData = await getUserAuthData(userId);
-        return NextResponse.json({ userAuthData }, { status: 200 });
+        return NextResponse.json(userAuthData, { status: 200 });
     } catch {
         return NextResponse.json("Error", { status: 500 });
     }

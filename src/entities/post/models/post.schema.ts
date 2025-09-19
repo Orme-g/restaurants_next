@@ -4,7 +4,7 @@ import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const blogPostSchema = new Schema(
     {
-        userId: { type: String, required: true },
+        userId: { type: Schema.Types.ObjectId, required: true },
         title: { type: String, required: true },
         subtitle: { type: String, required: true },
         title_image: { type: String, required: true },

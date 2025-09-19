@@ -4,10 +4,10 @@ import clsx from "clsx";
 import ReviewCard from "@/entities/review/ui/review-card/ReviewCard";
 import AdditionalReviewCard from "@/entities/review/ui/additional-review-card/AdditionalReviewCard";
 import styles from "./ReviewCardWithAddition.module.scss";
-import type { TReview } from "@/entities/review/models/review.types";
+import type { TReviewWithUserdata } from "@/entities/review/models/review.types";
 
 interface IToggleExtraReviewProps {
-    data: TReview;
+    data: TReviewWithUserdata;
 }
 const ReviewCardWithAddition: React.FC<IToggleExtraReviewProps> = ({ data }) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);

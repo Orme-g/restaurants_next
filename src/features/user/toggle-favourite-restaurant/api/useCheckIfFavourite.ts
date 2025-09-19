@@ -4,7 +4,7 @@ import { baseFetch } from "@/shared/api/baseFetch";
 export function useCheckIfFavourite(restId: string, options?: { enabled: boolean }) {
     return useQuery<boolean>({
         queryFn: () => baseFetch(`/api/user/check-favourite/${restId}`),
-        queryKey: ["favourite", restId],
+        queryKey: ["check-favourite", restId],
         enabled: options?.enabled,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,

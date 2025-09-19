@@ -18,7 +18,6 @@ interface IUserMenuProps {
 const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, userData }) => {
     const { name, role, id } = userData;
     const isAdmin = role?.includes("admin");
-    // const isAdmin = true;
     const { mutate: logout } = useLogout();
     const admin = (
         <Link href={`/admin`} onClick={handleClose}>
@@ -30,6 +29,7 @@ const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, userData })
             </MenuItem>
         </Link>
     );
+
     return (
         <>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>

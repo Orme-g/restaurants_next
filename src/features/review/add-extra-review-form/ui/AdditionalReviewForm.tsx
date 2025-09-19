@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import { Stack, TextField, Button, Rating } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
-
-// import { useAddAdditionalReviewMutation } from "../../../services/restaurantsApi";
-// import { useAppDispatch } from "../../../types/store";
-// import { callSnackbar } from "../../../reducers/interactive";
+import { usePostAdditionalReview } from "../api/usePostAdditionalReview";
+import type { TAdditionalReviewDTO } from "@/entities/review/models/review.validators";
 import styles from "./AdditionalReviewForm.module.scss";
-
-// import type { IAddidionalReview } from "../../../types/restaurantsTypes";
 interface TAdditionalReviewFormProps {
     reviewId: string;
     restId: string;
@@ -38,36 +34,29 @@ const AdditionalReviewForm: React.FC<TAdditionalReviewFormProps> = ({
             dislike: "",
         },
     });
-    // const onSubmit: SubmitHandler<SubmitCredentials> = (data: {
-    //     like: string;
-    //     dislike: string;
-    // }) => {
-    //     const { like, dislike } = data;
-    //     const additionalReview: IAddidionalReview = {
-    //         reviewId,
-    //         like,
-    //         dislike,
-    //         rating,
-    //         restId,
-    //     };
-    //     sendAdditionalReview(additionalReview)
-    //         .unwrap()
-    //         .then(({ message }) => {
-    //             dispatch(callSnackbar({ text: message, type: "success" }));
-    //             reset();
-    //         })
-    //         .catch((error) => dispatch(callSnackbar({ text: error.data, type: "error" })));
-    // };
-    // const currentFormStatus = displayStatus ? "show-with-animation" : "hide-with-animation";
+    const { mutateAsync: postAdditionalReview } = usePostAdditionalReview();
+    const onSubmit: SubmitHandler<SubmitCredentials> = (data: {
+        like: string;
+        dislike: string;
+    }) => {
+        const { like, dislike } = data;
+        const additionalReview: TAdditionalReviewDTO = {
+            reviewId,
+            like,
+            dislike,
+            rating,
+            restId,
+        };
+        postAdditionalReview(additionalReview).then(() => reset());
+    };
 
     return (
         <form
-            // className={clsx({styles[additional-review-form]}, ${currentFormStatus})}
             className={clsx(
                 styles["additional-review-form"],
                 displayStatus ? styles["show-with-animation"] : styles["hide-with-animation"]
             )}
-            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
         >
             <Stack spacing={3} sx={{ margin: "20px" }}>
                 <div>Дополните ваш отзыв:</div>
@@ -93,7 +82,6 @@ const AdditionalReviewForm: React.FC<TAdditionalReviewFormProps> = ({
                     multiline
                     minRows={3}
                 />
-                {/* <Stack direction="row"> */}
                 <div className={styles["additional-review-form__actions"]}>
                     <Rating
                         size="large"
@@ -105,11 +93,10 @@ const AdditionalReviewForm: React.FC<TAdditionalReviewFormProps> = ({
                     />
                     <div className={styles["additional-review-form__buttons"]}>
                         <Button type="submit">Отправить</Button>
+
                         <Button onClick={toggleDisplayStatus}>Отмена</Button>
                     </div>
                 </div>
-
-                {/* </Stack> */}
             </Stack>
         </form>
     );

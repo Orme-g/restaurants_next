@@ -7,11 +7,11 @@ import Link from "next/link";
 import ToggleSideMenuButton from "@/features/toggle-side-menu/ui/ToggleSideMenuButton";
 import ToggleUserMenuButton from "@/features/toggle-user-menu/ui/ToggleUserMenuButton";
 import UserMenu from "@/features/user-menu/ui/UserMenu";
-import { authStore } from "@/shared/store/auth.store";
+import { useAuthStore } from "@/shared/store/auth.store";
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const userData = authStore((state) => state.userData);
+    const userData = useAuthStore((state) => state.userData);
     const handleProfile = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };

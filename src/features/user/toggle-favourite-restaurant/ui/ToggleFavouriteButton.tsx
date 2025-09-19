@@ -6,7 +6,8 @@ import { faHeart as faHeartFilled } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons";
 import { useCheckIfFavourite } from "../api/useCheckIfFavourite";
 import { useHandleFavouriteRestaurant } from "../api/useHandleFavouriteRestaurant";
-import { authStore } from "@/shared/store/auth.store";
+import { useAuthStore } from "@/shared/store/auth.store";
+import Spinner from "@/shared/ui/spinner/Spinner";
 import styles from "./ToggleFavouriteButton.module.scss";
 
 interface IFavouriteButtonProps {
@@ -16,7 +17,7 @@ interface IFavouriteButtonProps {
 
 const FavouriteButton: React.FC<IFavouriteButtonProps> = ({ restId, restName }) => {
     console.log(restId, restName);
-    const ifAuth = authStore((state) => state.isAuth);
+    const ifAuth = useAuthStore((state) => state.isAuth);
     const { data: isFavourite, isLoading } = useCheckIfFavourite(restId, {
         enabled: Boolean(ifAuth),
     });
@@ -32,7 +33,11 @@ const FavouriteButton: React.FC<IFavouriteButtonProps> = ({ restId, restName }) 
         return;
     }
     if (isLoading) {
-        return;
+        return (
+            <div className={styles["favourite__spinner"]}>
+                <Spinner />
+            </div>
+        );
     }
     return (
         <IconButton

@@ -31,7 +31,7 @@ const RegisterForm = () => {
             password: "",
         },
     });
-    const { mutate: registerUser } = useRegister();
+    const { mutateAsync: registerUser } = useRegister();
     function onSubmit(data: TRegisterData) {
         if (data.password !== passwordCheck) {
             return setPassError("Пароли не совпадают");
@@ -41,23 +41,15 @@ const RegisterForm = () => {
             username,
             name,
             surname,
-            birthday,
+            birthday: new Date(birthday!),
             email,
             password,
         };
 
-        registerUser(newUser);
-        reset();
-        //     .unwrap()
-        //     .then((response) => {
-        //         reset();
-        //         setPassError(null);
-        //         setPasswordCheck("");
-        //         setUserExistError(null);
-        //         dispatch(callSnackbar({ text: response.message, type: "success" }));
-        //         navigate("/login", { replace: true });
-        //     })
-        //     .catch(({ data }) => setUserExistError(data));
+        registerUser(newUser).then(() => {
+            reset();
+            setPasswordCheck("");
+        });
     }
     return (
         <form className={styles["register-form"]} onSubmit={handleSubmit(onSubmit)}>
@@ -143,8 +135,6 @@ const RegisterForm = () => {
                 <div className={styles["register-form__error"]}>{userExistError}</div>
             </Stack>
         </form>
-        //     </div>
-        // </div>
     );
 };
 

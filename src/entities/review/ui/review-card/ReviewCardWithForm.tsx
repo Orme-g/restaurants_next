@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import ReviewCard from "./ReviewCard";
-import AdditionalReviewForm from "@/features/review/add-extra-review-form/AdditionalReviewForm";
+import AdditionalReviewForm from "@/features/review/add-extra-review-form/ui/AdditionalReviewForm";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import type { TReview } from "../../models/review.types";
+import type { TReviewWithUserdata } from "../../models/review.types";
 import styles from "./ReviewCardWithForm.module.scss";
 
 interface IReviewCardWithFormProps {
-    data: TReview;
+    data: TReviewWithUserdata;
 }
 const ReviewCardWithForm: React.FC<IReviewCardWithFormProps> = ({ data }) => {
     const [displayForm, setDispayForm] = useState<boolean>(false);
@@ -31,8 +31,8 @@ const ReviewCardWithForm: React.FC<IReviewCardWithFormProps> = ({ data }) => {
         <div className={styles["review-card-with-form"]}>
             <ReviewCard data={data} addExtraReviewButton={addExtraReviewButton} />
             <AdditionalReviewForm
-                restId="123"
-                reviewId="1234"
+                restId={data.restaurant.toString()}
+                reviewId={data._id}
                 displayStatus={displayForm}
                 toggleDisplayStatus={toggleDisplayForm}
             />

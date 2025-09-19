@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import Header from "@/widgets/header/ui/Header";
 import Footer from "@/widgets/footer/ui/Footer";
 import SideMenu from "@/widgets/side-menu/ui/SideMenu";
+import AppSnackbar from "@/features/snackbar/ui/Snackbar";
 import "normalize.css";
 import "./globals.scss";
 const roboto = Roboto({
@@ -30,6 +31,7 @@ export default async function RootLayout({
                     <main>{children}</main>
                     <SideMenu />
                     <Footer />
+                    <AppSnackbar />
                 </AppProviders>
             </body>
         </html>

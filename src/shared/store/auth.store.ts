@@ -9,7 +9,7 @@ interface IAuthState {
     logoutUser: () => void;
 }
 
-export const authStore = create<IAuthState>()(
+export const useAuthStore = create<IAuthState>()(
     devtools((set) => ({
         isAuth: null,
         userData: null,

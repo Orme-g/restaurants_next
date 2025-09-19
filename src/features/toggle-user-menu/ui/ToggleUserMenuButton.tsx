@@ -6,14 +6,15 @@ import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { authStore } from "@/shared/store/auth.store";
+import { useAuthStore } from "@/shared/store/auth.store";
+import Spinner from "@/shared/ui/spinner/Spinner";
 
 interface IToggleUserMenuButtonProps {
     handleProfile: (event: React.MouseEvent<HTMLElement>) => void;
 }
 const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProfile }) => {
     const pathname = usePathname();
-    const isAuth = authStore((state) => state.isAuth);
+    const isAuth = useAuthStore((state) => state.isAuth);
     const ifAuth = (
         <IconButton
             size="large"
@@ -29,6 +30,11 @@ const ToggleUserMenuButton: React.FC<IToggleUserMenuButtonProps> = ({ handleProf
             <Link href={`/login?redirect=${pathname}`}>Войти</Link>
         </Button>
     );
-    return isAuth ? ifAuth : ifUnauth;
+    const spinner = (
+        <div style={{ height: "50px", width: "50px" }}>
+            <Spinner />{" "}
+        </div>
+    );
+    return isAuth === null ? spinner : isAuth === true ? ifAuth : ifUnauth;
 };
 export default ToggleUserMenuButton;

@@ -20,10 +20,9 @@ const LoginForm = () => {
             password: "",
         },
     });
-    const { mutate: login } = useLogin();
+    const { mutateAsync: login } = useLogin();
     async function onSubmit(data: TLoginData) {
-        login(data);
-        reset();
+        login(data).then(() => reset());
     }
     return (
         <form className={styles["login-form"]} onSubmit={handleSubmit(onSubmit)}>

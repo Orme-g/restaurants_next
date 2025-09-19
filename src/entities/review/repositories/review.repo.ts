@@ -1,17 +1,26 @@
 import "server-only";
 
 import Review from "../models/review.schema";
-import type { TReview } from "../models/review.types";
+import type { TReview, TReviewWithUserdata } from "../models/review.types";
 import type { TNewReview } from "../models/review.validators";
 import type { ClientSession } from "mongoose";
 
-export async function getReviewsByRestaurantId(restaurantId: string): Promise<TReview[]> {
-    return Review.find({ restaurant: restaurantId }).sort({ createdAt: -1 }).lean<TReview[]>();
+export async function getReviewsByRestaurantId(
+    restaurantId: string
+): Promise<TReviewWithUserdata[]> {
+    return Review.find({ restaurant: restaurantId })
+        .sort({ createdAt: -1 })
+        .populate("userId", "username avatar reviews")
+        .lean<TReviewWithUserdata[]>();
 }
 
-export async function saveNewRestaurantReview(review: TNewReview, session?: ClientSession) {
+export async function saveNewRestaurantReview(
+    review: TNewReview,
+    session?: ClientSession
+): Promise<TReview> {
     const newReview = new Review(review);
-    return newReview.save({ session });
+    const saved = await newReview.save({ session });
+    return saved.toObject();
 }
 
 export async function getReviewById(
@@ -29,12 +38,12 @@ export async function addAdditionalReviewToExisting(
     rating: number,
     added: Date,
     session?: ClientSession
-) {
-    Review.findByIdAndUpdate(
+): Promise<TReview | null> {
+    return Review.findByIdAndUpdate(
         reviewId,
         {
             $set: { additionalReview: { like, dislike, rating, added } },
         },
-        { session }
-    );
+        { session, new: true }
+    ).lean<TReview>();
 }

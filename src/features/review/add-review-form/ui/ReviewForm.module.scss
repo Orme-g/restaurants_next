@@ -1,0 +1,51 @@
+@use "variables";
+.add-review {
+    &__notice {
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: variables.$primary-text;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    &__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: fit-content;
+        height: 400px;
+        box-shadow: 2px 1px 20px -3px rgba(34, 60, 80, 0.15);
+        &.show {
+            height: 400px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+            transition: height 0.1s ease-in, opacity 0.3s ease-in 0.1s, visibility 0.3s ease-in 0.1s,
+                transform 0.3s ease-in 0.1s;
+        }
+        &.hide {
+            height: 0px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50px);
+            transition: height 0.5s ease-in, opacity 0.5s ease-in, visibility 0.5s ease-in,
+                transform 0.5s ease-in;
+        }
+    }
+
+    &__header {
+        width: 100%;
+        &_username {
+            font-size: 1.4rem;
+            margin: 20px auto 20px 30px;
+        }
+    }
+    &__form {
+        padding: 0 20px 20px 20px;
+    }
+    &__skeleton {
+        height: 40px;
+        width: 350px;
+    }
+}

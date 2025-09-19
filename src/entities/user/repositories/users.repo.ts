@@ -19,6 +19,14 @@ export async function isRestaurantFavourite(userId: string, restId: string) {
     return Boolean(exists);
 }
 
+export async function isRestaurantReviewed(userId: string, restId: string) {
+    const reviewed = await User.exists({
+        _id: userId,
+        reviewedRestaurants: restId,
+    });
+    return Boolean(reviewed);
+}
+
 export async function addReviewedRestaurantToUser(
     userId: string,
     restId: string,

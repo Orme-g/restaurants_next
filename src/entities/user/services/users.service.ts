@@ -30,6 +30,11 @@ export async function checkIfRestaurantFavourite(userId: string, restId: string)
     return isFavourite;
 }
 
+export async function checkIfRestaurantReviewed(userId: string, restId: string) {
+    const isReviewed = await usersRepo.isRestaurantReviewed(userId, restId);
+    return isReviewed;
+}
+
 export async function toggleFavouriteRestaurant(
     userId: string,
     restId: string,

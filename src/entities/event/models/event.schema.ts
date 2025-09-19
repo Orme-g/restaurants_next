@@ -8,7 +8,7 @@ const eventSchema = new Schema(
         title_image: { type: String, required: true },
         subtitle: { type: String, required: true },
         restaurantName: { type: String, required: true },
-        restaurantId: { type: String, required: true },
+        restaurantId: { type: Schema.Types.ObjectId, ref: "Restaurant", required: true },
         image: { type: String, required: true },
         content: { type: [Schema.Types.Mixed], required: true },
         short_description: { type: String, required: true },

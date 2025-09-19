@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 import { updateRestaurantRating } from "../../restaurant/services/restaurant.service";
 
-import { TNewReview, TAdditionalReview } from "../models/review.validators";
+import { TAdditionalReviewDTO, TNewReviewDTO } from "../models/review.validators";
 
 export const runtime = "nodejs";
 
@@ -13,42 +13,42 @@ export async function getAllReviewsForRestaurant(restaurantId: string) {
     return reviewsRepo.getReviewsByRestaurantId(restaurantId);
 }
 
-export async function postNewRestaurantReview(review: TNewReview, userId: string) {
+export async function postNewRestaurantReview(review: TNewReviewDTO, userId: string) {
     const session = await mongoose.startSession();
     try {
-        const { restaurant: restId, rating } = review;
+        const { restId, rating } = review;
+        const reviewData = { ...review, userId, restaurant: restId };
+        let newReview;
         await session.withTransaction(async () => {
-            const newReview = await reviewsRepo.saveNewRestaurantReview(review, session);
+            newReview = await reviewsRepo.saveNewRestaurantReview(reviewData, session);
             const updatedRestaurant = await updateRestaurantRating(restId, rating, session);
             if (!updatedRestaurant) {
-                throw new Error("Restaurant was not updated");
+                throw new Error("Не удалось обновить данные ресторана.");
             }
-            const updatedUser = await usersRepo.addReviewedRestaurantToUser(
-                userId,
-                restId,
-                session
-            );
-            if (!updatedUser) {
-                throw new Error("User was not updated");
+            try {
+                await usersRepo.addReviewedRestaurantToUser(userId, restId, session);
+            } catch {
+                throw new Error("Не удалось обновить данные пользователя.");
             }
-            return newReview;
         });
+        return newReview;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Error while adding new review: ${error.message}`);
+            throw new Error(error.message);
         }
-        throw new Error("Error while adding new review.");
+        throw new Error("Не удалось добавить новый отзыв.");
     } finally {
         await session.endSession();
     }
 }
 
 export async function postAdditionalReviewToExisting(
-    additionalReview: TAdditionalReview,
+    additionalReview: TAdditionalReviewDTO,
     userId: string
 ) {
     const session = await mongoose.startSession();
     try {
+        let updatedReview;
         const { reviewId, like, dislike, rating, restId } = additionalReview;
         const added = new Date();
         await session.withTransaction(async () => {
@@ -56,7 +56,7 @@ export async function postAdditionalReviewToExisting(
             if (!reviewToUpdate) throw new Error("Отзыв не найден");
             if (reviewToUpdate.userId.toString() !== userId)
                 throw new Error("Вы дополняете не свой отзыв");
-            await reviewsRepo.addAdditionalReviewToExisting(
+            updatedReview = await reviewsRepo.addAdditionalReviewToExisting(
                 reviewId,
                 like,
                 dislike,
@@ -66,11 +66,12 @@ export async function postAdditionalReviewToExisting(
             );
             await updateRestaurantRating(restId, rating, session);
         });
+        return updatedReview;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message);
         }
-        throw new Error("Error when making additional review");
+        throw new Error("Не удалось дополнить отзыв");
     } finally {
         await session.endSession();
     }

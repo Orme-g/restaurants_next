@@ -35,6 +35,7 @@ export const config = {
         "/api/auth/me",
         "/api/user/favourite-restaurants",
         "/api/user/check-favourite/:path*",
+        "/api/user/check-reviewed/:path*",
         "/api/user/toggle-favourite",
     ],
 };

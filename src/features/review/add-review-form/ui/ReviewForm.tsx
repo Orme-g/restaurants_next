@@ -1,28 +1,26 @@
 "use client";
-
 import React, { useState } from "react";
 import clsx from "clsx";
+
 import { useForm } from "react-hook-form";
 import { Button, Stack, TextField, Rating } from "@mui/material";
-
-import type { TNewReview } from "@/entities/review/models/review.validators";
+import { useAuthStore } from "@/shared/store/auth.store";
+import { useCheckReviewed } from "../api/useCheckReviewed";
+import { usePostReview } from "../api/usePostReview";
+import TextLineSkeleton from "@/shared/ui/skeletons/TextLineSkeleton";
+import type { TNewReviewDTO } from "@/entities/review/models/review.validators";
 
 import styles from "./ReviewForm.module.scss";
 
 interface IReviewForm {
     restId: string;
 }
-
 const ReviewForm: React.FC<IReviewForm> = ({ restId }) => {
     const [rating, setRating] = useState<number>(1);
     const [displayForm, setDisplayForm] = useState(false);
-    // const name = userData?.name;
-    // const [postReview] = usePostRestaurantReviewMutation();
-    // const { data: reviewedRestaurants, isLoading } = useGetReviewedRestaurantsListQuery(undefined, {
-    //     skip: !isAuth,
-    // });
-    const name = "Semen";
-
+    const { userData, isAuth } = useAuthStore();
+    const { mutateAsync: postReview } = usePostReview();
+    const { data: isReviewed, isLoading } = useCheckReviewed(restId, { enabled: Boolean(isAuth) });
     const {
         register,
         reset,
@@ -34,27 +32,38 @@ const ReviewForm: React.FC<IReviewForm> = ({ restId }) => {
             dislike: "",
         },
     });
-
     const onSubmit = (data: { like: string; dislike: string }) => {
         const { like, dislike } = data;
-        const review: TNewReview = {
+        const review: TNewReviewDTO = {
             like,
             dislike,
             rating,
-            restaurant: restId,
+            restId,
         };
-        // postReview(review)
-        //     .unwrap()
-        //     .then(({ message }) => {
-        //         dispatch(callSnackbar({ text: message, type: "success" }));
-        //         reset();
-        //     })
-        //     .catch((error) => dispatch(callSnackbar({ type: "error", text: error.message })));
+        postReview(review).then(() => {
+            reset();
+            setRating(1);
+        });
     };
 
     const toggleDisplay = () => {
         setDisplayForm((display) => !display);
     };
+
+    if (isLoading || isAuth === null) {
+        return (
+            <div className={styles["add-review__skeleton"]}>
+                <TextLineSkeleton />
+            </div>
+        );
+    }
+    if (isReviewed) {
+        return <div className={styles["add-review__notice"]}>Вы уже оставили отзыв</div>;
+    }
+    if (!userData || !isAuth) {
+        return <div className={styles["add-review__notice"]}>Войдите, чтобы оставить отзыв</div>;
+    }
+    const { name } = userData;
 
     return (
         <>
@@ -107,7 +116,7 @@ const ReviewForm: React.FC<IReviewForm> = ({ restId }) => {
                                 size="large"
                                 value={rating}
                                 precision={0.5}
-                                onChange={(event, newValue) => {
+                                onChange={(_, newValue) => {
                                     setRating(newValue as number);
                                 }}
                             />

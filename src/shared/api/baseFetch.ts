@@ -19,7 +19,14 @@ export async function baseFetch<T>(url: string, options?: RequestInit): Promise<
         });
     }
     if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        let message = `Статус ${response.status}`;
+        try {
+            const data = await response.json();
+            if (data?.message) {
+                message = data.message;
+            }
+        } catch {}
+        throw new Error(message);
     }
     return response.json();
 }

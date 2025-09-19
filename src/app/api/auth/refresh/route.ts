@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
         const response = NextResponse.json({ message: "New access token issued" }, { status: 200 });
         response.cookies.set("accessToken", newAccessToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "strict",
+            // secure: true, // Set for prod
+            sameSite: "lax", // 'strict for prod'
             maxAge: 15 * 60,
             path: "/",
         });

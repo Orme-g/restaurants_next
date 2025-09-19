@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
         await registerUser(data);
         return NextResponse.json({ message: "Регистрация прошла успешно" }, { status: 201 });
     } catch (error) {
+        console.log(error);
         if (error instanceof Error) {
             return NextResponse.json(
                 { message: `Ошибка регистрации: ${error.message}` },

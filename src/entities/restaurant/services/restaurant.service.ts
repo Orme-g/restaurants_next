@@ -47,20 +47,15 @@ export async function serachRestaurantByUserInput(input: string) {
 }
 
 export async function updateRestaurantRating(
-    restaurantId: string,
+    restId: string,
     rating: number,
     session?: ClientSession
 ) {
-    const restaurant = await restaurantRepo.getRestaurantById(restaurantId, session);
-    if (!restaurant) throw new Error("Restaurant not found");
+    const restaurant = await restaurantRepo.getRestaurantById(restId, session);
+    if (!restaurant) throw new Error("Ресторан не найден");
     const ratingMarksArray = [...restaurant.rating, rating];
     const newAverageRating = +(
         ratingMarksArray.reduce((acc, val) => acc + val, 0) / ratingMarksArray.length
     ).toFixed(3);
-    return restaurantRepo.updateRatingAndAverageRating(
-        restaurantId,
-        rating,
-        newAverageRating,
-        session
-    );
+    return restaurantRepo.updateRatingAndAverageRating(restId, rating, newAverageRating, session);
 }
