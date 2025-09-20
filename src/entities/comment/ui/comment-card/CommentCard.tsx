@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-
 import { IconButton, Badge, Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import DeleteCommentForm from "./DeleteCommentForm";
+import transformDate from "@/shared/lib/transfromDate";
 import styles from "./CommentCard.module.scss";
 import type { TComment } from "../../models/comment.types";
 
@@ -13,7 +13,7 @@ interface ICommentCardProps {
     isAdmin?: boolean;
 }
 const CommentCard: React.FC<ICommentCardProps> = ({ data }) => {
-    const [displayDeleteForm, setDisplayDeleteForm] = useState<boolean>(true);
+    const [displayDeleteForm, setDisplayDeleteForm] = useState<boolean>(false);
     const { _id, name, likes, dislikes, createdAt, text } = data;
     const deleteButton = (
         <div
@@ -110,10 +110,10 @@ const CommentCard: React.FC<ICommentCardProps> = ({ data }) => {
                 >
                     Ответить
                 </Button>
-                {/* <div className={styles["comment-card__date"]}>{date}</div> */}
-                <div className={styles["comment-card__date"]}>23.03.2023</div>
+                <div className={styles["comment-card__date"]}>
+                    {transformDate(createdAt, "short")}
+                </div>
             </div>
-            {/* {displayDeleteWindow ? deleteWindow : null} */}
             {displayDeleteForm ? (
                 <DeleteCommentForm
                     isDisplayed={displayDeleteForm}

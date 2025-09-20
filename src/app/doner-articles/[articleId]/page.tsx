@@ -2,7 +2,7 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { getArticleById } from "@/entities/article/services/article.service";
 import CarouselImages from "@/shared/ui/carousel/CarouselImages";
-import CommentsBlock from "@/widgets/comments-block/CommentsBlock";
+import CommentsBlock from "@/widgets/comments-block/ui/CommentsBlock";
 import { connectMongoose } from "@/shared/db/mongoose";
 import transformDate from "@/shared/lib/transfromDate";
 import styles from "./page.module.scss";
@@ -72,7 +72,7 @@ const ArticlePage: React.FC<IArticlePageProps> = async ({ params }) => {
                 </div>
             </div>
             <div className={styles["article__comments"]}>
-                <CommentsBlock />
+                <CommentsBlock topicId={articleId} />
             </div>
         </section>
     );
