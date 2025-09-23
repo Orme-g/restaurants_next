@@ -42,8 +42,10 @@ export async function toggleFavouriteRestaurant(
     favourite: boolean
 ) {
     if (favourite) {
-        return usersRepo.addRestaurantToFavourites(userId, restId, restName);
+        await usersRepo.addRestaurantToFavourites(userId, restId, restName);
+        return "added";
     } else {
-        return usersRepo.removeRestaurantFromFavourites(userId, restId);
+        await usersRepo.removeRestaurantFromFavourites(userId, restId);
+        return "removed";
     }
 }

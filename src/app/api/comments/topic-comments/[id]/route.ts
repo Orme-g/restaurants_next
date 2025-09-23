@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getTopicComments } from "@/entities/comment/services/comment.service";
+import {
+    getTopicComments,
+    // getTopicCommentsWithUserReactionFlag,
+} from "@/entities/comment/services/comment.service";
 import { connectMongoose } from "@/shared/db/mongoose";
 
 export const runtime = "nodejs";

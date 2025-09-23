@@ -10,8 +10,13 @@ export async function PATCH(request: NextRequest) {
         const userId = request.headers.get("x-user-id");
         const body = await request.json();
         const data = handleFavouriteSchema.parse(body);
-        await toggleFavouriteRestaurant(userId!, data.restId, data.restName, data.favourite);
-        return NextResponse.json({ message: "Success" }, { status: 200 });
+        const result = await toggleFavouriteRestaurant(
+            userId!,
+            data.restId,
+            data.restName,
+            data.favourite
+        );
+        return NextResponse.json(result, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json(
