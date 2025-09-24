@@ -25,6 +25,8 @@ const CommentsBlock: React.FC<ICommentsBlockProps> = ({ topicId }) => {
     const { data: comments, isLoading } = useGetComments(topicId);
     const { data: userRatedComments } = useGetUserRatedComments(userId);
     const { mutate: evaluateComment } = useEvaluateComment(topicId);
+    console.log(comments);
+    console.log(userRatedComments);
     function handleReply(data: IReplyData | null) {
         setReplyData(data);
     }

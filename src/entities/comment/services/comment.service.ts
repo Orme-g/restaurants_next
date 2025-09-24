@@ -1,6 +1,7 @@
 import * as commentRepo from "../repositories/comment.repo";
 import * as usersRepo from "../../user/repositories/users.repo";
 import mongoose from "mongoose";
+import { TComment } from "../models/comment.types";
 import { TNewCommentDTO, TEvaluateCommentDTO } from "../models/comment.validators";
 
 export const runtime = "nodejs";
@@ -46,16 +47,22 @@ export async function postNewComment(data: TNewCommentDTO, userId: string) {
     }
 }
 
-export async function evaluateComment(data: TEvaluateCommentDTO, userId: string) {
+export async function evaluateComment(
+    data: TEvaluateCommentDTO,
+    userId: string
+): Promise<TComment> {
     const session = await mongoose.startSession();
     try {
         const { action, commentId, authorId } = data;
-        await session.withTransaction(async () => {
+        const result = await session.withTransaction(async () => {
             let updatedComment;
             try {
                 switch (action) {
                     case "like":
                         updatedComment = await commentRepo.increaseCommentLikes(commentId, session);
+                        if (!updatedComment) {
+                            throw new Error("Комментарий не найден в базе.");
+                        }
                         await usersRepo.updateUserRating(authorId, 1, session);
                         break;
                     case "dislike":
@@ -63,6 +70,9 @@ export async function evaluateComment(data: TEvaluateCommentDTO, userId: string)
                             commentId,
                             session
                         );
+                        if (!updatedComment) {
+                            throw new Error("Комментарий не найден в базе.");
+                        }
                         await usersRepo.updateUserRating(authorId, -1, session);
                         break;
                 }
@@ -76,6 +86,7 @@ export async function evaluateComment(data: TEvaluateCommentDTO, userId: string)
             }
             return updatedComment;
         });
+        return result;
     } catch (error) {
         throw error;
     } finally {

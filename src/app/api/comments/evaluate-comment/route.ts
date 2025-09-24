@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
         const userId = request.headers.get("x-user-id");
         const body = await request.json();
         const data = evaluateCommentSchema.parse(body);
-        await evaluateComment(data, userId!);
-        return NextResponse.json("Success", { status: 200 });
+        const updatedComment = await evaluateComment(data, userId!);
+        return NextResponse.json(updatedComment, { status: 200 });
     } catch (error) {
         console.log(error);
         if (error instanceof Error) {

@@ -19,18 +19,24 @@ export async function saveNewComment(
     return saved.toObject();
 }
 
-export async function increaseCommentLikes(commentId: string, session?: ClientSession) {
+export async function increaseCommentLikes(
+    commentId: string,
+    session?: ClientSession
+): Promise<TComment | null> {
     return Comment.findByIdAndUpdate(
         commentId,
         { $inc: { likes: 1 } },
         { session, new: true }
-    ).lean();
+    ).lean<TComment>();
 }
 
-export async function increaseCommentDislikes(commentId: string, session?: ClientSession) {
+export async function increaseCommentDislikes(
+    commentId: string,
+    session?: ClientSession
+): Promise<TComment | null> {
     return Comment.findByIdAndUpdate(
         commentId,
         { $inc: { dislikes: 1 } },
         { session, new: true }
-    ).lean();
+    ).lean<TComment>();
 }

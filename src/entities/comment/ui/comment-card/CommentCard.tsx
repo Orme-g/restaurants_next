@@ -9,6 +9,7 @@ import styles from "./CommentCard.module.scss";
 import type { TComment } from "../../models/comment.types";
 import type { IReplyData } from "@/widgets/comments-block/ui/CommentsBlock";
 import type { TEvaluateCommentDTO } from "../../models/comment.validators";
+import type { UseMutateFunction } from "@tanstack/react-query";
 
 interface ICommentCardProps {
     commentData: TComment;
@@ -16,7 +17,7 @@ interface ICommentCardProps {
     handleReply: (data: IReplyData) => void;
     topicId: string;
     isRated?: boolean;
-    evaluateComment: (data: TEvaluateCommentDTO) => void;
+    evaluateComment: UseMutateFunction<unknown, unknown, TEvaluateCommentDTO>;
 }
 const CommentCard: React.FC<ICommentCardProps> = ({
     commentData,

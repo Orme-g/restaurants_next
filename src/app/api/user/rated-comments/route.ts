@@ -6,7 +6,6 @@ export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
     await connectMongoose();
-    console.log("Rated comments fetched!");
     try {
         const userId = request.headers.get("x-user-id");
         const ratedCommentsList = await listUserRatedComments(userId!);
