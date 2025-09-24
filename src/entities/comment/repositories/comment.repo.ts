@@ -20,9 +20,17 @@ export async function saveNewComment(
 }
 
 export async function increaseCommentLikes(commentId: string, session?: ClientSession) {
-    return Comment.findByIdAndUpdate(commentId, { $inc: { likes: 1 } }, { session });
+    return Comment.findByIdAndUpdate(
+        commentId,
+        { $inc: { likes: 1 } },
+        { session, new: true }
+    ).lean();
 }
 
 export async function increaseCommentDislikes(commentId: string, session?: ClientSession) {
-    return Comment.findByIdAndUpdate(commentId, { $inc: { dislikes: 1 } }, { session });
+    return Comment.findByIdAndUpdate(
+        commentId,
+        { $inc: { dislikes: 1 } },
+        { session, new: true }
+    ).lean();
 }

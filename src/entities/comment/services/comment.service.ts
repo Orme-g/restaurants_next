@@ -51,14 +51,18 @@ export async function evaluateComment(data: TEvaluateCommentDTO, userId: string)
     try {
         const { action, commentId, authorId } = data;
         await session.withTransaction(async () => {
+            let updatedComment;
             try {
                 switch (action) {
                     case "like":
-                        await commentRepo.increaseCommentLikes(commentId, session);
+                        updatedComment = await commentRepo.increaseCommentLikes(commentId, session);
                         await usersRepo.updateUserRating(authorId, 1, session);
                         break;
                     case "dislike":
-                        await commentRepo.increaseCommentDislikes(commentId, session);
+                        updatedComment = await commentRepo.increaseCommentDislikes(
+                            commentId,
+                            session
+                        );
                         await usersRepo.updateUserRating(authorId, -1, session);
                         break;
                 }
@@ -70,8 +74,7 @@ export async function evaluateComment(data: TEvaluateCommentDTO, userId: string)
             } catch {
                 throw new Error("Не обновить данные пользователя.");
             }
-
-            return "Success";
+            return updatedComment;
         });
     } catch (error) {
         throw error;

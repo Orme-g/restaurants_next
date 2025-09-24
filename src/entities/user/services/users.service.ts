@@ -49,3 +49,7 @@ export async function toggleFavouriteRestaurant(
         return "removed";
     }
 }
+
+export async function listUserRatedComments(userId: string) {
+    return usersRepo.getUserRatedComments(userId);
+}

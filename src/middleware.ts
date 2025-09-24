@@ -37,6 +37,7 @@ export const config = {
         "/api/user/check-favourite/:path*",
         "/api/user/check-reviewed/:path*",
         "/api/user/toggle-favourite",
+        "/api/user/rated-comments",
         "/api/comments/post-comment",
         "/api/comments/evaluate-comment",
     ],

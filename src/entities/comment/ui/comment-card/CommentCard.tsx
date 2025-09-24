@@ -5,20 +5,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 import DeleteCommentForm from "./DeleteCommentForm";
 import transformDate from "@/shared/lib/transfromDate";
-import { useEvaluateComment } from "../../api/useEvaluateComment";
 import styles from "./CommentCard.module.scss";
 import type { TComment } from "../../models/comment.types";
 import type { IReplyData } from "@/widgets/comments-block/ui/CommentsBlock";
+import type { TEvaluateCommentDTO } from "../../models/comment.validators";
 
 interface ICommentCardProps {
-    data: TComment;
+    commentData: TComment;
     isAdmin?: boolean;
     handleReply: (data: IReplyData) => void;
+    topicId: string;
+    isRated?: boolean;
+    evaluateComment: (data: TEvaluateCommentDTO) => void;
 }
-const CommentCard: React.FC<ICommentCardProps> = ({ data, handleReply }) => {
+const CommentCard: React.FC<ICommentCardProps> = ({
+    commentData,
+    handleReply,
+    isRated,
+    evaluateComment,
+}) => {
     const [displayDeleteForm, setDisplayDeleteForm] = useState<boolean>(false);
-    const { _id, name, likes, dislikes, createdAt, text, userId } = data;
-    const { mutate: evaluateComment } = useEvaluateComment();
+    const { _id, name, likes, dislikes, createdAt, text, userId } = commentData;
     const deleteButton = (
         <div
             className={styles["comment-card__delete"]}
@@ -29,9 +36,6 @@ const CommentCard: React.FC<ICommentCardProps> = ({ data, handleReply }) => {
             </IconButton>
         </div>
     );
-    // function handleDisplayForm() {
-    //     setDisplayDeleteForm((display) => !display);
-    // }
     return (
         <div className={styles["comment-card__container"]} key={_id}>
             {deleteButton}
@@ -52,7 +56,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({ data, handleReply }) => {
             <div className={styles["comment-card__footer"]}>
                 <div className={styles["comment-card__like"]}>
                     <IconButton
-                        // disabled={beingRated || deleted}
+                        disabled={isRated}
                         onClick={() =>
                             evaluateComment({
                                 commentId: _id,
@@ -80,7 +84,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({ data, handleReply }) => {
                 </div>
                 <div className={styles["comment-card__dislike"]}>
                     <IconButton
-                        // disabled={beingRated || deleted}
+                        disabled={isRated}
                         onClick={() =>
                             evaluateComment({
                                 commentId: _id,

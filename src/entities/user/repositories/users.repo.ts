@@ -86,9 +86,9 @@ export async function updateUserRating(userId: string, value: number, session?: 
     return "updated";
 }
 
-export async function getUserRatedComments(userId: string): Promise<string[]> {
+export async function getUserRatedComments(userId: string): Promise<string[] | null> {
     const data = await User.findById(userId)
         .select("ratedComments")
         .lean<{ _id: string; ratedComments: string[] }>();
-    return data?.ratedComments ?? [];
+    return data?.ratedComments ?? null;
 }

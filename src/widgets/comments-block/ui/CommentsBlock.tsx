@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import CommentCard from "@/entities/comment/ui/comment-card/CommentCard";
 import AddCommentForm from "@/features/comment/add-comment-form/ui/AddCommentForm";
 import { useGetComments } from "../api/useGetComments";
+import { useEvaluateComment } from "@/widgets/comments-block/api/useEvaluateComment";
+import { useGetUserRatedComments } from "../api/useGetUserRatedComments";
 import { useAuthStore } from "@/shared/store/auth.store";
 import styles from "./CommentsBlock.module.scss";
 
@@ -18,8 +20,11 @@ interface ICommentsBlockProps {
 
 const CommentsBlock: React.FC<ICommentsBlockProps> = ({ topicId }) => {
     const [replyData, setReplyData] = useState<IReplyData | null>(null);
+    const { isAuth, userData } = useAuthStore();
+    const userId = userData?.id;
     const { data: comments, isLoading } = useGetComments(topicId);
-    const { isAuth } = useAuthStore();
+    const { data: userRatedComments } = useGetUserRatedComments(userId);
+    const { mutate: evaluateComment } = useEvaluateComment(topicId);
     function handleReply(data: IReplyData | null) {
         setReplyData(data);
     }
@@ -46,7 +51,28 @@ const CommentsBlock: React.FC<ICommentsBlockProps> = ({ topicId }) => {
                 <div className={styles["comments__title"]}>Комментарии:</div>
                 <div className={styles["comments__list"]}>
                     {comments.map((item, index) => {
-                        return <CommentCard data={item} key={index} handleReply={handleReply} />;
+                        if (userRatedComments) {
+                            const isRated = userRatedComments.includes(item._id);
+                            return (
+                                <CommentCard
+                                    commentData={item}
+                                    key={index}
+                                    handleReply={handleReply}
+                                    isRated={isRated}
+                                    topicId={topicId}
+                                    evaluateComment={evaluateComment}
+                                />
+                            );
+                        }
+                        return (
+                            <CommentCard
+                                commentData={item}
+                                key={index}
+                                handleReply={handleReply}
+                                topicId={topicId}
+                                evaluateComment={evaluateComment}
+                            />
+                        );
                     })}
                 </div>
             </section>
