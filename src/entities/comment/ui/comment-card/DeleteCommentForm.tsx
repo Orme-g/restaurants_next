@@ -2,28 +2,31 @@
 import React, { useState } from "react";
 
 import { Button, TextField } from "@mui/material";
+import type { TComment } from "../../models/comment.types";
+import type { TDeleteCommentDTO } from "@/entities/comment/models/comment.validators";
+import type { UseMutateFunction } from "@tanstack/react-query";
 import styles from "./DeleteCommentForm.module.scss";
 
 interface IDeleteCommentFormProps {
-    isDisplayed: boolean;
     setDisplayForm: (value: boolean) => void; // custom
     commentId: string;
+    handleDelete: UseMutateFunction<TComment, Error, TDeleteCommentDTO>;
 }
 const DeleteCommentForm: React.FC<IDeleteCommentFormProps> = ({
-    isDisplayed,
     commentId,
     setDisplayForm,
+    handleDelete,
 }) => {
     const [inputError, setInputError] = useState<boolean>(false);
-    const [deleteReason, setDeleteReason] = useState<string | null>(null);
+    const [deleteReason, setDeleteReason] = useState<string>("");
     const [helperText, setHelperText] = useState<string | null>(null);
     function handleDeleteComment() {
-        if (deleteReason && deleteReason.trim().length < 10) {
+        if (!deleteReason || deleteReason.trim().length < 10) {
             setInputError(true);
             setHelperText("Укажите причину удаления. Минимум 10 символов.");
             return;
         }
-        // onDelete(_id, deleteReason.trim());
+        handleDelete({ commentId, reason: deleteReason });
         setHelperText(null);
         setInputError(false);
         setDeleteReason("");

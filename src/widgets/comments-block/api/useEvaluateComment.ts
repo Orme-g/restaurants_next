@@ -3,17 +3,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/shared/store/auth.store";
 
 import type { TEvaluateCommentDTO } from "@/entities/comment/models/comment.validators";
-import { TComment } from "@/entities/comment/models/comment.types";
+import { TCommentWithReply } from "@/entities/comment/models/comment.types";
 
 export function useEvaluateComment(topicId: string) {
     const userData = useAuthStore((state) => state.userData);
     const userId = userData?.id;
     const queryClient = useQueryClient();
     return useMutation<
-        TComment,
+        TCommentWithReply,
         Error,
         TEvaluateCommentDTO,
-        { prevRatedComments?: string[]; prevTopicComments?: TComment[] }
+        { prevRatedComments?: string[]; prevTopicComments?: TCommentWithReply[] }
     >({
         mutationFn: (body) =>
             baseFetch("/api/comments/evaluate-comment", {
@@ -26,7 +26,7 @@ export function useEvaluateComment(topicId: string) {
                 "rated-comments",
                 userId,
             ]);
-            const prevTopicComments = queryClient.getQueryData<TComment[]>([
+            const prevTopicComments = queryClient.getQueryData<TCommentWithReply[]>([
                 "topic-comments",
                 topicId,
             ]);
@@ -58,19 +58,24 @@ export function useEvaluateComment(topicId: string) {
                 queryClient.setQueryData(["topic-comments", topicId], context.prevTopicComments);
             }
         },
-        onSuccess: (updatedComment: TComment) => {
-            queryClient.setQueryData<TComment[]>(["topic-comments", topicId], (prevList) =>
+        onSuccess: (updatedComment: TCommentWithReply) => {
+            queryClient.setQueryData<TCommentWithReply[]>(["topic-comments", topicId], (prevList) =>
                 prevList
                     ? prevList.map((item) =>
-                          item._id === updatedComment._id ? updatedComment : item
+                          item._id === updatedComment._id
+                              ? updatedComment
+                              : //   ? {
+                                //         ...updatedComment,
+                                //         replyText: item.replyText,
+                                //         replyToName: item.replyToName,
+                                //     }
+                                item
                       )
                     : []
             );
             queryClient.setQueryData<string[]>(["rated-comments", userId], (prevList) =>
                 prevList ? [...prevList, updatedComment._id] : []
             );
-            // queryClient.invalidateQueries({ queryKey: ["rated-comments", userId] });
-            // queryClient.invalidateQueries({ queryKey: ["topic-comments", topicId] });
         },
     });
 }

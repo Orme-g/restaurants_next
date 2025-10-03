@@ -1,32 +1,63 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { IconButton, Badge, Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faThumbsDown, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faThumbsDown, faXmark, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import DeleteCommentForm from "./DeleteCommentForm";
 import transformDate from "@/shared/lib/transfromDate";
 import styles from "./CommentCard.module.scss";
-import type { TComment } from "../../models/comment.types";
+import type { TComment, TCommentWithReply } from "../../models/comment.types";
 import type { IReplyData } from "@/widgets/comments-block/ui/CommentsBlock";
-import type { TEvaluateCommentDTO } from "../../models/comment.validators";
+import type { TEvaluateCommentDTO, TDeleteCommentDTO } from "../../models/comment.validators";
 import type { UseMutateFunction } from "@tanstack/react-query";
 
 interface ICommentCardProps {
-    commentData: TComment;
-    isAdmin?: boolean;
+    isAdmin: boolean;
+    commentData: TCommentWithReply;
     handleReply: (data: IReplyData) => void;
     topicId: string;
     isRated?: boolean;
-    evaluateComment: UseMutateFunction<unknown, unknown, TEvaluateCommentDTO>;
+    evaluateComment: UseMutateFunction<TCommentWithReply, Error, TEvaluateCommentDTO>;
+    handleDelete: UseMutateFunction<TComment, Error, TDeleteCommentDTO>;
 }
 const CommentCard: React.FC<ICommentCardProps> = ({
+    isAdmin,
     commentData,
     handleReply,
     isRated,
     evaluateComment,
+    handleDelete,
 }) => {
     const [displayDeleteForm, setDisplayDeleteForm] = useState<boolean>(false);
-    const { _id, name, likes, dislikes, createdAt, text, userId } = commentData;
+    const { _id, name, likes, dislikes, createdAt, text, userId, replyText, replyToName, deleted } =
+        commentData;
+    const commentWithReply = (
+        <>
+            <div className={styles["comment-card__reply"]}>
+                <FontAwesomeIcon
+                    icon={faQuoteRight}
+                    style={{
+                        position: "absolute",
+                        top: "5px",
+                        right: "10px",
+                        height: "18px",
+                        width: "18px",
+                    }}
+                />
+                <div className={styles["comment-card__reply_name"]}>{replyToName}</div>
+                <div className={styles["comment-card__reply_text"]}>{replyText}</div>
+            </div>
+            {text}
+        </>
+    );
+    const commentDeleted = (
+        <div className={styles["comment-card__deleted"]}>
+            <div className={styles["comment-card__deleted_title"]}>
+                Комментарий удалён. Причина:
+            </div>
+            <div className={styles["comment-card__deleted_reason"]}>{text}</div>
+        </div>
+    );
     const deleteButton = (
         <div
             className={styles["comment-card__delete"]}
@@ -39,30 +70,22 @@ const CommentCard: React.FC<ICommentCardProps> = ({
     );
     return (
         <div className={styles["comment-card__container"]} key={_id}>
-            {deleteButton}
+            {isAdmin ? deleteButton : null}
             <div className={styles["comment-card__header"]}>
                 <div className={styles["comment-card__name"]}>{name}</div>
-                {/* {isAdmin ? (
-                    <div className="comment-card__delete">
-                        <IconButton onClick={() => setDisplayDeleteWindow(true)}>
-                            <FontAwesomeIcon icon={faXmark}/>
-                        </IconButton>
-                    </div>
-                ) : null} */}
             </div>
             <div className={styles["comment-card__text"]}>
-                {/* {deleted ? commentDeleted : replyToComment ? commentWithReply : text} */}
-                {text}
+                {deleted ? commentDeleted : replyText && replyToName ? commentWithReply : text}
             </div>
             <div className={styles["comment-card__footer"]}>
                 <div className={styles["comment-card__like"]}>
                     <IconButton
-                        disabled={isRated}
+                        disabled={isRated || deleted}
                         onClick={() =>
                             evaluateComment({
                                 commentId: _id,
                                 action: "like",
-                                authorId: userId.toString(),
+                                authorId: userId,
                             })
                         }
                     >
@@ -85,12 +108,12 @@ const CommentCard: React.FC<ICommentCardProps> = ({
                 </div>
                 <div className={styles["comment-card__dislike"]}>
                     <IconButton
-                        disabled={isRated}
+                        disabled={isRated || deleted}
                         onClick={() =>
                             evaluateComment({
                                 commentId: _id,
                                 action: "dislike",
-                                authorId: userId.toString(),
+                                authorId: userId,
                             })
                         }
                     >
@@ -120,7 +143,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({
                         },
                     }}
                     onClick={() => handleReply({ name, text, commentId: _id })}
-                    // disabled={deleted}
+                    disabled={deleted}
                 >
                     Ответить
                 </Button>
@@ -130,12 +153,12 @@ const CommentCard: React.FC<ICommentCardProps> = ({
             </div>
             {displayDeleteForm ? (
                 <DeleteCommentForm
-                    isDisplayed={displayDeleteForm}
                     setDisplayForm={setDisplayDeleteForm}
                     commentId={_id}
+                    handleDelete={handleDelete}
                 />
             ) : null}
         </div>
     );
 };
-export default CommentCard;
+export default memo(CommentCard);

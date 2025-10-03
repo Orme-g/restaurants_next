@@ -31,7 +31,7 @@ const ReviewCardWithForm: React.FC<IReviewCardWithFormProps> = ({ data }) => {
         <div className={styles["review-card-with-form"]}>
             <ReviewCard data={data} addExtraReviewButton={addExtraReviewButton} />
             <AdditionalReviewForm
-                restId={data.restaurant.toString()}
+                restId={data.restaurant}
                 reviewId={data._id}
                 displayStatus={displayForm}
                 toggleDisplayStatus={toggleDisplayForm}

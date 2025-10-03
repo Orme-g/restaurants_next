@@ -1,15 +1,18 @@
 import * as commentRepo from "../repositories/comment.repo";
 import * as usersRepo from "../../user/repositories/users.repo";
 import mongoose from "mongoose";
-import { TComment } from "../models/comment.types";
-import { TNewCommentDTO, TEvaluateCommentDTO } from "../models/comment.validators";
+import { TCommentDTO } from "../models/comment.types";
+import {
+    TNewCommentDTO,
+    TEvaluateCommentDTO,
+    TDeleteCommentDTO,
+} from "../models/comment.validators";
 
 export const runtime = "nodejs";
 
-export async function getTopicComments(topicId: string) {
-    return commentRepo.getCommentsByTopicId(topicId);
+export async function getTopicComments(topicId: string, commentsNumber: number, cursor?: string) {
+    return commentRepo.getTopicCommentsWithReplies(topicId, commentsNumber, cursor);
 }
-
 // export async function getTopicCommentsWithUserReactionFlag(topicId: string, userId: string) {
 //     const topicComments = await commentRepo.getCommentsByTopicId(topicId);
 //     const ratedComments = await usersRepo.getUserRatedComments(userId);
@@ -23,23 +26,22 @@ export async function getTopicComments(topicId: string) {
 //     return result;
 // }
 
-export async function postNewComment(data: TNewCommentDTO, userId: string) {
+export async function postNewComment(data: TNewCommentDTO, userId: string): Promise<TCommentDTO> {
     const session = await mongoose.startSession();
     try {
-        let newComment;
-        await session.withTransaction(async () => {
-            try {
-                newComment = await commentRepo.saveNewComment({ ...data, userId }, session);
-            } catch {
-                throw new Error("Не удалось сохранить комментарий.");
+        const result = await session.withTransaction(async () => {
+            const savedComment = await commentRepo.saveNewComment({ ...data, userId }, session);
+            const populatedComment = await commentRepo.getSingleCommentWithReply(
+                savedComment._id,
+                session
+            );
+            await usersRepo.updateUserCommentsField(userId, session);
+            if (!populatedComment) {
+                throw new Error("Не удалось создать новый комментарий.");
             }
-            try {
-                await usersRepo.updateUserCommentsField(userId, session);
-            } catch {
-                throw new Error("Не удалось обновить данные пользователя.");
-            }
+            return populatedComment;
         });
-        return newComment;
+        return result;
     } catch (error) {
         throw error;
     } finally {
@@ -50,7 +52,7 @@ export async function postNewComment(data: TNewCommentDTO, userId: string) {
 export async function evaluateComment(
     data: TEvaluateCommentDTO,
     userId: string
-): Promise<TComment> {
+): Promise<TCommentDTO> {
     const session = await mongoose.startSession();
     try {
         const { action, commentId, authorId } = data;
@@ -59,22 +61,17 @@ export async function evaluateComment(
             try {
                 switch (action) {
                     case "like":
-                        updatedComment = await commentRepo.increaseCommentLikes(commentId, session);
-                        if (!updatedComment) {
-                            throw new Error("Комментарий не найден в базе.");
-                        }
+                        await commentRepo.increaseCommentLikes(commentId, session);
                         await usersRepo.updateUserRating(authorId, 1, session);
                         break;
                     case "dislike":
-                        updatedComment = await commentRepo.increaseCommentDislikes(
-                            commentId,
-                            session
-                        );
-                        if (!updatedComment) {
-                            throw new Error("Комментарий не найден в базе.");
-                        }
+                        await commentRepo.increaseCommentDislikes(commentId, session);
                         await usersRepo.updateUserRating(authorId, -1, session);
                         break;
+                }
+                updatedComment = await commentRepo.getSingleCommentWithReply(commentId, session);
+                if (!updatedComment) {
+                    throw new Error("Комментарий не найден в базе.");
                 }
             } catch {
                 throw new Error("Не удалось поставить реакцию.");
@@ -85,6 +82,10 @@ export async function evaluateComment(
                 throw new Error("Не обновить данные пользователя.");
             }
             return updatedComment;
+
+            // replyToName: updatedComment.replyToComment?.name,
+            // replyText: updatedComment.replyToComment?.text,
+            // replyToComment: updatedComment.replyToComment?._id,
         });
         return result;
     } catch (error) {
@@ -92,4 +93,8 @@ export async function evaluateComment(
     } finally {
         await session.endSession();
     }
+}
+
+export async function deleteComment(data: TDeleteCommentDTO) {
+    return commentRepo.updateCommentAsDeleted(data);
 }

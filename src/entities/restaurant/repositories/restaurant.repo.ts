@@ -2,7 +2,7 @@ import "server-only";
 import Restaurant from "../models/restaurant.schema";
 
 import type { TRestaurant } from "../models/restaurant.types";
-import type * as mongoose from "mongoose";
+import { ClientSession } from "mongoose";
 
 export async function getLastAddedRestaurants(limit = 6): Promise<TRestaurant[]> {
     return Restaurant.find().sort({ createdAt: -1 }).limit(limit).lean<TRestaurant[]>();
@@ -10,7 +10,7 @@ export async function getLastAddedRestaurants(limit = 6): Promise<TRestaurant[]>
 
 export async function getRestaurantById(
     id: string,
-    session?: mongoose.ClientSession
+    session?: ClientSession
 ): Promise<TRestaurant | null> {
     return Restaurant.findById(id)
         .session(session ?? null)
@@ -49,7 +49,7 @@ export async function updateRatingAndAverageRating(
     restaurantId: string,
     rating: number,
     newAverageRating: number,
-    session?: mongoose.ClientSession
+    session?: ClientSession
 ) {
     return Restaurant.findByIdAndUpdate(
         restaurantId,

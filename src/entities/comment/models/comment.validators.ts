@@ -16,3 +16,10 @@ export const evaluateCommentSchema = z.object({
 });
 
 export type TEvaluateCommentDTO = z.infer<typeof evaluateCommentSchema>;
+
+export const deleteCommentSchema = z.object({
+    commentId: z.string(),
+    reason: z.string(),
+});
+
+export type TDeleteCommentDTO = z.infer<typeof deleteCommentSchema>;

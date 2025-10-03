@@ -15,7 +15,7 @@ const commentSchema = new Schema(
         dislikes: { type: Number, default: 0 },
         text: { type: String, required: true },
         replyToComment: { type: Schema.Types.ObjectId, ref: "Comment", required: false },
-        deleted: Boolean,
+        deleted: { type: Boolean, default: false },
     },
     { timestamps: true }
 );

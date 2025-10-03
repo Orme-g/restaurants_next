@@ -21,7 +21,6 @@ const ArticleLongCard: React.FC<IArticleLongCardProps> = ({
     rating,
     description,
 }) => {
-    console.log(createdAt);
     const articleHeader = (
         <div className={styles["header-wrapper"]}>
             <div className={styles["article-card__name"]}>{name}</div>{" "}

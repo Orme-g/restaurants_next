@@ -34,6 +34,25 @@
         flex-direction: column;
         gap: 20px;
     }
+    &__load-button {
+        padding: 10px 15px;
+        color: variables.$green-color;
+        text-transform: uppercase;
+        margin: 30px auto 0 auto;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: inherit;
+        transition: background-color 0.3s ease;
+    }
+    &__load-button:hover {
+        background-color: #88bf5229;
+    }
+    &__load-button:disabled {
+        color: rgb(170, 170, 170);
+        background-color: inherit;
+        cursor: not-allowed;
+    }
 }
 
 @media (max-width: 480px) {
