@@ -24,6 +24,12 @@
             margin-top: 5px;
         }
     }
+    &__notice {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
 }
 
 @media (max-width: 980px) {

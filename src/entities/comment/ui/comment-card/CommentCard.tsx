@@ -3,34 +3,51 @@ import React, { useState, memo } from "react";
 import { IconButton, Badge, Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown, faXmark, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import { useEvaluateComment } from "../../api/useEvaluateComment";
+import { useDeleteComment } from "../../api/useDeleteComment";
+import { useAuthStore } from "@/shared/store/auth.store";
+import { useInteractive } from "@/shared/store/interactive.store";
 import DeleteCommentForm from "./DeleteCommentForm";
 import transformDate from "@/shared/lib/transfromDate";
 import styles from "./CommentCard.module.scss";
-import type { TComment, TCommentWithReply } from "../../models/comment.types";
+import type { TCommentWithReply } from "../../models/comment.types";
 import type { IReplyData } from "@/widgets/comments-block/ui/CommentsBlock";
-import type { TEvaluateCommentDTO, TDeleteCommentDTO } from "../../models/comment.validators";
-import type { UseMutateFunction } from "@tanstack/react-query";
+import type { TEvaluateCommentDTO } from "../../models/comment.validators";
 
 interface ICommentCardProps {
-    isAdmin: boolean;
     commentData: TCommentWithReply;
-    handleReply: (data: IReplyData) => void;
+    setReplyData: (data: IReplyData) => void;
     topicId: string;
     isRated?: boolean;
-    evaluateComment: UseMutateFunction<TCommentWithReply, Error, TEvaluateCommentDTO>;
-    handleDelete: UseMutateFunction<TComment, Error, TDeleteCommentDTO>;
 }
 const CommentCard: React.FC<ICommentCardProps> = ({
-    isAdmin,
     commentData,
-    handleReply,
+    setReplyData,
     isRated,
-    evaluateComment,
-    handleDelete,
+    topicId,
 }) => {
     const [displayDeleteForm, setDisplayDeleteForm] = useState<boolean>(false);
     const { _id, name, likes, dislikes, createdAt, text, userId, replyText, replyToName, deleted } =
         commentData;
+    const { isAuth, userData } = useAuthStore();
+    const callSnackbar = useInteractive((state) => state.callSnackbar);
+    const isAdmin = userData?.role.includes("admin");
+    const { mutate: evaluateComment } = useEvaluateComment(topicId);
+    const { mutate: deleteComment } = useDeleteComment(topicId);
+    function handleEvaluate(data: TEvaluateCommentDTO) {
+        if (!isAuth) {
+            callSnackbar({ text: "Войдите, чтобы поставить реакцию.", type: "warning" });
+            return;
+        }
+        evaluateComment(data);
+    }
+    function handleReply(data: IReplyData) {
+        if (!isAuth) {
+            callSnackbar({ text: "Войдите, чтобы ответить на комментарий.", type: "warning" });
+            return;
+        }
+        setReplyData(data);
+    }
     const commentWithReply = (
         <>
             <div className={styles["comment-card__reply"]}>
@@ -82,7 +99,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({
                     <IconButton
                         disabled={isRated || deleted}
                         onClick={() =>
-                            evaluateComment({
+                            handleEvaluate({
                                 commentId: _id,
                                 action: "like",
                                 authorId: userId,
@@ -110,7 +127,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({
                     <IconButton
                         disabled={isRated || deleted}
                         onClick={() =>
-                            evaluateComment({
+                            handleEvaluate({
                                 commentId: _id,
                                 action: "dislike",
                                 authorId: userId,
@@ -155,7 +172,7 @@ const CommentCard: React.FC<ICommentCardProps> = ({
                 <DeleteCommentForm
                     setDisplayForm={setDisplayDeleteForm}
                     commentId={_id}
-                    handleDelete={handleDelete}
+                    handleDelete={deleteComment}
                 />
             ) : null}
         </div>

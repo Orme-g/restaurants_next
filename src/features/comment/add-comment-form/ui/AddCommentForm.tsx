@@ -5,26 +5,20 @@ import { TextField, Button, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/shared/store/auth.store";
+import { usePostComment } from "../api/usePostComment";
 import type { IReplyData } from "@/widgets/comments-block/ui/CommentsBlock";
 import type { TNewCommentDTO } from "@/entities/comment/models/comment.validators";
-import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import styles from "./AddCommentForm.module.scss";
 interface ICommentFormProps {
     topicId: string;
     replyData: IReplyData | null;
-    handleReply: (data: IReplyData | null) => void;
-    postComment: UseMutateAsyncFunction<unknown, unknown, TNewCommentDTO>;
-    isPending: boolean;
+    setReplyData: (data: IReplyData | null) => void;
 }
-const AddCommentForm: React.FC<ICommentFormProps> = ({
-    topicId,
-    replyData,
-    handleReply,
-    postComment,
-    isPending,
-}) => {
+const AddCommentForm: React.FC<ICommentFormProps> = ({ topicId, replyData, setReplyData }) => {
     const [commentText, setCommentText] = useState("");
     const [error, setError] = useState(false);
+    const { mutateAsync: postComment, isPending } = usePostComment();
+    const isAuth = useAuthStore((state) => state.isAuth);
     const userData = useAuthStore((state) => state.userData);
     if (!userData) {
         return;
@@ -48,7 +42,7 @@ const AddCommentForm: React.FC<ICommentFormProps> = ({
         postComment(newComment).then(() => {
             setCommentText("");
             setError(false);
-            handleReply(null);
+            setReplyData(null);
         });
     }
     const replyBlock = (
@@ -62,12 +56,20 @@ const AddCommentForm: React.FC<ICommentFormProps> = ({
                     top: 0,
                     right: 0,
                 }}
-                onClick={() => handleReply(null)}
+                onClick={() => setReplyData(null)}
             >
                 <FontAwesomeIcon icon={faXmark} style={{ height: "22px", width: "22px" }} />
             </IconButton>
         </div>
     );
+
+    if (!isAuth) {
+        return (
+            <div className={styles["comments-add-form__notice"]}>
+                Войдите или зарегистрируйтесь, чтобы оставлять комментарии.
+            </div>
+        );
+    }
 
     return (
         <form className={styles["comments-add-form"]}>

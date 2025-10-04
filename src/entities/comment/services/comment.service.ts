@@ -82,10 +82,6 @@ export async function evaluateComment(
                 throw new Error("Не обновить данные пользователя.");
             }
             return updatedComment;
-
-            // replyToName: updatedComment.replyToComment?.name,
-            // replyText: updatedComment.replyToComment?.text,
-            // replyToComment: updatedComment.replyToComment?._id,
         });
         return result;
     } catch (error) {
