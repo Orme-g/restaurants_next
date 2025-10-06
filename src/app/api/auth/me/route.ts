@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongoose } from "@/shared/db/mongoose";
-import { getUserAuthData } from "@/entities/user/services/users.service";
+import { getUserAuthData } from "@/processes/auth/services/auth.service";
 
 export const runtime = "nodejs";
 

@@ -9,13 +9,38 @@ export async function getUserById(userId: string) {
     }
     return user;
 }
-export async function getUserAuthData(userId: string) {
+
+export async function getUserProfileData(userId: string) {
     const user = await usersRepo.findUserById(userId);
     if (!user) {
         throw new Error("Пользователь не найден");
     }
-    return { name: user.name, username: user.username, id: user._id, role: user.role };
+    return {
+        avatar: user.avatar,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        comments: user.comments,
+        reviews: user.reviews,
+        favouriteRestaurants: user.favouriteRestaurants,
+        createdAt: user.createdAt,
+    };
 }
+
+export async function getUserBlogData(userId: string) {
+    const user = await usersRepo.findUserById(userId);
+    if (!user) {
+        throw new Error("Пользователь не найден");
+    }
+    return user.blogData;
+}
+// export async function getUserAuthData(userId: string) {
+//     const user = await usersRepo.findUserById(userId);
+//     if (!user) {
+//         throw new Error("Пользователь не найден");
+//     }
+//     return { name: user.name, username: user.username, id: user._id, role: user.role };
+// }
 
 export async function getUserFavouriteRestaurantsList(userId: string) {
     const user = await usersRepo.findUserById(userId);

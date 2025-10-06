@@ -6,3 +6,14 @@ export interface IUserStoreData {
     role: string[];
     username: string;
 }
+
+export interface IUserProfileDTO {
+    avatar: string;
+    name: string;
+    username: string;
+    email: string;
+    comments: number;
+    reviews: number;
+    favouriteRestaurants: { name: string; id: string }[];
+    createdAt: Date;
+}

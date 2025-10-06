@@ -1,0 +1,126 @@
+@use "variables";
+
+.profile-data {
+    &__header {
+        margin-top: 50px;
+        display: flex;
+    }
+    &__avatar {
+        height: 90px;
+        width: 90px;
+        img {
+            border-radius: 100%;
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+    &__greet {
+        margin-left: 40px;
+        margin-top: auto;
+        font-size: 1.5rem;
+        font-style: italic;
+        font-weight: 300;
+    }
+    &__wrapper {
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+    }
+    &__info {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        .change-password {
+            margin-top: 30px;
+        }
+    }
+    &__info-item {
+        display: flex;
+        min-height: 30px;
+        margin: 5px 0;
+        img {
+            height: 200px;
+            width: 200px;
+            margin-left: 70px;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border-radius: 7px;
+        }
+    }
+    &__info-field {
+        width: 50%;
+        text-align: right;
+    }
+    &__info-value {
+        width: 50%;
+        font-style: italic;
+        font-weight: 300;
+        padding-left: 40px;
+        position: relative;
+    }
+    &__favorites {
+        width: 50%;
+        padding-left: 100px;
+        color: variables.$primary-text;
+        &_header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &_title {
+            // width: 100%;
+            text-align: center;
+            font-size: 40px;
+            font-weight: 300;
+        }
+        &_icon {
+            color: rgb(99, 99, 99);
+            margin-left: 15px;
+        }
+        &_subtitle {
+            font-size: 35px;
+            font-weight: 300;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    }
+    &__favorite-restaurants {
+        max-height: 400px;
+        overflow: scroll;
+        border: 1px solid rgb(129, 129, 129);
+        border-radius: 10px;
+        padding: 15px 20px;
+
+        &_item {
+            width: fit-content;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        &_icon {
+            transform: translateY(2px);
+        }
+        &_name {
+            margin-left: 5px;
+            font-size: 20px;
+            padding-right: 20px;
+        }
+        &_empty {
+            font-size: 20px;
+            font-weight: 300;
+        }
+    }
+}
+.change-avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.upload-image_helper-text {
+    margin-top: 10px;
+    color: rgb(221, 39, 39);
+}

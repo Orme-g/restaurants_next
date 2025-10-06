@@ -16,7 +16,7 @@ interface IUserMenuProps {
 }
 
 const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, userData }) => {
-    const { name, role, id } = userData;
+    const { name, role } = userData;
     const isAdmin = role?.includes("admin");
     const { mutate: logout } = useLogout();
     const admin = (
@@ -34,7 +34,7 @@ const UserMenu: React.FC<IUserMenuProps> = ({ anchorEl, handleClose, userData })
         <>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                 <div className={styles["menu__username"]}>{name}</div>
-                <Link href={`/profile/${id}`}>
+                <Link href={`/profile`}>
                     <MenuItem>
                         <ListItemIcon>
                             <FontAwesomeIcon icon={faUser} className={styles["menu__icon"]} />

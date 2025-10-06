@@ -83,6 +83,7 @@ const userSchema = new Schema(
         },
         blogData: {
             type: blogDataSchema,
+            default: null,
         },
         ratedBlogPosts: { type: [String], default: [] },
     },

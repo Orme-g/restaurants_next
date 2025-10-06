@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 
 import * as authRepo from "../repositories/auth.repo";
 import * as usersRepo from "@/entities/user/repositories/users.repo";
-// import * as usersRepo from "@/entities/user/repositories/users.repo";
 
 import type { TLoginData, TRegisterData } from "@/processes/auth/model/auth.validators";
 
@@ -15,6 +14,14 @@ interface CustomJWTPayload extends JWTPayload {
 const secretKey = process.env.JWT_SECRET;
 if (!secretKey) throw new Error("JWT key is not provided!");
 const secret = new TextEncoder().encode(secretKey);
+
+export async function getUserAuthData(userId: string) {
+    const user = await usersRepo.findUserById(userId);
+    if (!user) {
+        throw new Error("Пользователь не найден");
+    }
+    return { name: user.name, username: user.username, id: user._id, role: user.role };
+}
 
 export async function registerUser(registerData: TRegisterData) {
     const { username, password } = registerData;
@@ -52,14 +59,6 @@ export async function loginUser(loginData: TLoginData) {
         role: user.role,
     };
 }
-
-// export async function getUserAuthData(userId: string) {
-//     const user = await usersRepo.findUserById(userId);
-//     if (!user) {
-//         throw new Error("Пользователь не найден");
-//     }
-//     return { name: user.name, username: user.username, id: user._id, role: user.role };
-// }
 
 export async function generateNewAccessToken(refreshToken: string) {
     try {
