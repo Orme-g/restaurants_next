@@ -1,5 +1,7 @@
 import * as usersRepo from "../repositories/users.repo";
 
+import bcrypt from "bcrypt";
+
 export const runtime = "nodejs";
 
 export async function getUserById(userId: string) {
@@ -77,4 +79,21 @@ export async function toggleFavouriteRestaurant(
 
 export async function listUserRatedComments(userId: string) {
     return usersRepo.getUserRatedComments(userId);
+}
+
+export async function changeUserPassword(userId: string, oldPass: string, newPass: string) {
+    const user = await usersRepo.findUserById(userId);
+    if (!user) {
+        throw new Error("Пользователь не найден");
+    }
+    const checkPassword = await bcrypt.compare(oldPass, user.password);
+    if (!checkPassword) {
+        throw new Error("Неверный пароль");
+    }
+    const hashPassword = await bcrypt.hash(newPass, 10);
+    const updatedUser = await usersRepo.setUserNewPassword(userId, hashPassword);
+    if (!updatedUser) {
+        throw new Error("Не удалось обновить пароль");
+    }
+    return "Success";
 }

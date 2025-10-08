@@ -92,3 +92,16 @@ export async function getUserRatedComments(userId: string): Promise<string[]> {
         .lean<{ _id: string; ratedComments: string[] }>();
     return data?.ratedComments ?? [];
 }
+
+export async function setUserNewPassword(
+    userId: string,
+    newHashPass: string
+): Promise<TUser | null> {
+    return await User.findByIdAndUpdate(
+        userId,
+        {
+            $set: { password: newHashPass },
+        },
+        { new: true }
+    ).lean<TUser>();
+}

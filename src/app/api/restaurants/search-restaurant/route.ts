@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
         }
         const result = await serachRestaurantByUserInput(input);
         return NextResponse.json(result, { status: 200 });
-    } catch {
-        return NextResponse.json({ message: "Error" }, { status: 500 });
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Error?!" }, { status: 500 });
     }
 }

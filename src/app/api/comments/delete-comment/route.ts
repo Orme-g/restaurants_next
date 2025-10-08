@@ -3,6 +3,8 @@ import { connectMongoose } from "@/shared/db/mongoose";
 import { deleteComment } from "@/entities/comment/services/comment.service";
 import { deleteCommentSchema } from "@/entities/comment/models/comment.validators";
 
+import { ZodError } from "zod";
+
 export const runtime = "nodejs";
 
 export async function PATCH(request: NextRequest) {
@@ -17,6 +19,15 @@ export async function PATCH(request: NextRequest) {
         const deletedComment = await deleteComment(data);
         return NextResponse.json(deletedComment, { status: 200 });
     } catch (error) {
-        return NextResponse.json(error, { status: 500 });
+        if (error instanceof ZodError) {
+            return NextResponse.json(
+                { message: "Данные не прошли валидацию на сервере" },
+                { status: 400 }
+            );
+        }
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Не удалось удалить комментарий" }, { status: 500 });
     }
 }

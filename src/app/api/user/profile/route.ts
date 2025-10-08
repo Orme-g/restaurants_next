@@ -13,7 +13,13 @@ export async function GET(request: NextRequest) {
         }
         const profileData = await getUserProfileData(userId);
         return NextResponse.json(profileData, { status: 200 });
-    } catch (e) {
-        throw e;
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json(
+            { message: "Не удалось получить данные профиля" },
+            { status: 500 }
+        );
     }
 }

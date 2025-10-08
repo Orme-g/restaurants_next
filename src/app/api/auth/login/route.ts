@@ -3,6 +3,8 @@ import { connectMongoose } from "@/shared/db/mongoose";
 import { loginUser } from "@/processes/auth/services/auth.service";
 import { loginDataSchema } from "@/processes/auth/model/auth.validators";
 
+import { ZodError } from "zod";
+
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
@@ -30,6 +32,12 @@ export async function POST(request: NextRequest) {
         });
         return response;
     } catch (error) {
+        if (error instanceof ZodError) {
+            return NextResponse.json(
+                { message: "Данные не прошли валидацию на сервере" },
+                { status: 400 }
+            );
+        }
         if (error instanceof Error) {
             return NextResponse.json({ message: error.message }, { status: 401 });
         }

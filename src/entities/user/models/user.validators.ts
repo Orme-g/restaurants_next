@@ -7,3 +7,10 @@ export const handleFavouriteSchema = z.object({
 });
 
 export type THandleFavouriteData = z.infer<typeof handleFavouriteSchema>;
+
+export const changePasswordSchema = z.object({
+    oldPass: z.string(),
+    newPass: z.string().min(8, "Минимум 8 символов"),
+});
+
+export type TChangePasswordDTO = z.infer<typeof changePasswordSchema>;

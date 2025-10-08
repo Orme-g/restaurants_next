@@ -40,6 +40,7 @@ export const config = {
         "/api/user/rated-comments",
         "/api/user/profile",
         "/api/user/blog-data",
+        "/api/user/change-password",
         "/api/comments/post-comment",
         "/api/comments/evaluate-comment",
         "/api/comments/delete-comment",

@@ -14,6 +14,6 @@ export async function GET(request: NextRequest) {
         const userAuthData = await getUserAuthData(userId);
         return NextResponse.json(userAuthData, { status: 200 });
     } catch {
-        return NextResponse.json("Error", { status: 500 });
+        return NextResponse.json({ message: "Error" }, { status: 500 });
     }
 }

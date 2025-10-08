@@ -13,7 +13,10 @@ export async function GET(request: NextRequest) {
         }
         const blogData = await getUserBlogData(userId);
         return NextResponse.json(blogData, { status: 200 });
-    } catch (e) {
-        return NextResponse.json(e, { status: 500 });
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Не удалось получить данные" }, { status: 500 });
     }
 }

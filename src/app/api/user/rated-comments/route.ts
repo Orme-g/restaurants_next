@@ -12,7 +12,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(ratedCommentsList, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
-            return NextResponse.json(error.message, { status: 500 });
+            return NextResponse.json({ message: error.message }, { status: 500 });
         }
+        return NextResponse.json({ message: "Не удалось получить список" }, { status: 500 });
     }
 }

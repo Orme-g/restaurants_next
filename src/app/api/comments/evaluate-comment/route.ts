@@ -3,6 +3,8 @@ import { connectMongoose } from "@/shared/db/mongoose";
 import { evaluateComment } from "@/entities/comment/services/comment.service";
 import { evaluateCommentSchema } from "@/entities/comment/models/comment.validators";
 
+import { ZodError } from "zod";
+
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
@@ -14,9 +16,15 @@ export async function POST(request: NextRequest) {
         const updatedComment = await evaluateComment(data, userId!);
         return NextResponse.json(updatedComment, { status: 200 });
     } catch (error) {
-        console.log(error);
-        if (error instanceof Error) {
-            return NextResponse.json(error.message, { status: 500 });
+        if (error instanceof ZodError) {
+            return NextResponse.json(
+                { message: "Данные не прошли валидацию на сервере" },
+                { status: 400 }
+            );
         }
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Не удалось поставить реакцию" }, { status: 500 });
     }
 }

@@ -13,7 +13,10 @@ export async function GET(
         const { restaurantId } = await params;
         const restaurantReviews = await getAllReviewsForRestaurant(restaurantId);
         return NextResponse.json(restaurantReviews, { status: 200 });
-    } catch {
-        return NextResponse.json({ message: "Error" }, { status: 500 });
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Error?!" }, { status: 500 });
     }
 }

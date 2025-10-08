@@ -18,6 +18,7 @@ export async function baseFetch<T>(url: string, options?: RequestInit): Promise<
             headers: { "Content-Type": "application/json" },
         });
     }
+
     if (!response.ok) {
         let message = `Статус ${response.status}`;
         try {

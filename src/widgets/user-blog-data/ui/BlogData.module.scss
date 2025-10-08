@@ -1,0 +1,50 @@
+@use "../../style/mixins";
+@use "../../style/variables";
+
+.blog-data {
+    &__blog-subtitle {
+        font-weight: 300;
+        font-size: 1.4rem;
+        font-style: italic;
+        margin-left: 100px;
+        margin-bottom: 30px;
+        color: #848484;
+    }
+    &__userdata {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        &_item {
+            display: flex;
+            min-height: 30px;
+            margin: 5px 0;
+            img {
+                height: 200px;
+                width: 200px;
+                margin-left: 70px;
+                object-fit: cover;
+                margin-bottom: 30px;
+                border-radius: 7px;
+            }
+        }
+    }
+    &__data-field {
+        width: 25%;
+        text-align: right;
+    }
+
+    &__data-value {
+        width: 75%;
+        font-style: italic;
+        font-weight: 300;
+        padding-left: 40px;
+        position: relative;
+    }
+    &__add-blog-post {
+        @include mixins.addPostButton;
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+    }
+}

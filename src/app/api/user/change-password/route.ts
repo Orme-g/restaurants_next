@@ -1,20 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
-import { postAdditionalReviewToExisting } from "@/entities/review/services/review.service";
-import { additionalReviewDTOSchema } from "@/entities/review/models/review.validators";
+import { connectMongoose } from "@/shared/db/mongoose";
+import { changePasswordSchema } from "@/entities/user/models/user.validators";
+import { changeUserPassword } from "@/entities/user/services/users.service";
 
 import { ZodError } from "zod";
 
 export const runtime = "nodejs";
 
 export async function PATCH(request: NextRequest) {
+    await connectMongoose();
     try {
         const userId = request.headers.get("x-user-id");
         const body = await request.json();
-        const data = additionalReviewDTOSchema.parse(body);
-        await postAdditionalReviewToExisting(data, userId!);
-        revalidateTag(`reviews-${data.restId}`);
-        return NextResponse.json("Success", { status: 200 });
+        const data = changePasswordSchema.parse(body);
+        if (!userId) {
+            throw new Error("User ID not found.");
+        }
+        const result = await changeUserPassword(userId, data.oldPass, data.newPass);
+        return NextResponse.json(result, { status: 200 });
     } catch (error) {
         if (error instanceof ZodError) {
             return NextResponse.json(
@@ -25,6 +28,6 @@ export async function PATCH(request: NextRequest) {
         if (error instanceof Error) {
             return NextResponse.json({ message: error.message }, { status: 500 });
         }
-        return NextResponse.json({ message: "Не удалось дополнить отзыв" }, { status: 500 });
+        return NextResponse.json({ message: "Не удалось изменить пароль" }, { status: 500 });
     }
 }

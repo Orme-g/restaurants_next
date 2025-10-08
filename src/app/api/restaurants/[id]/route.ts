@@ -10,7 +10,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
         const { id } = await params;
         const data = await getRestaurantProfile(id);
         return NextResponse.json(data, { status: 200 });
-    } catch {
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
         return NextResponse.json({ message: "Error" }, { status: 500 });
     }
 }

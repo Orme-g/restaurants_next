@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectMongoose } from "@/shared/db/mongoose";
 import { toggleFavouriteRestaurant } from "@/entities/user/services/users.service";
 import { handleFavouriteSchema } from "@/entities/user/models/user.validators";
+
+import { ZodError } from "zod";
+
 export const runtime = "nodejs";
 
 export async function PATCH(request: NextRequest) {
@@ -18,6 +21,12 @@ export async function PATCH(request: NextRequest) {
         );
         return NextResponse.json(result, { status: 200 });
     } catch (error) {
+        if (error instanceof ZodError) {
+            return NextResponse.json(
+                { message: "Данные не прошли валидацию на сервере" },
+                { status: 400 }
+            );
+        }
         if (error instanceof Error) {
             return NextResponse.json(
                 { message: `Ошибка при работе с избранным рестораном: ${error.message}` },

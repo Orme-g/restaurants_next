@@ -13,7 +13,10 @@ export async function GET(
         const userId = request.headers.get("x-user-id");
         const isReviewed = await checkIfRestaurantReviewed(userId!, restId);
         return NextResponse.json(isReviewed, { status: 200 });
-    } catch {
-        return NextResponse.json({ message: "Error" }, { status: 500 });
+    } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: "Не удалось получить список" }, { status: 500 });
     }
 }

@@ -14,7 +14,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         return NextResponse.json(topicComments, { status: 200 });
     } catch (error) {
         if (error instanceof Error) {
-            return NextResponse.json(error.message, { status: 500 });
+            return NextResponse.json({ message: error.message }, { status: 500 });
         }
     }
+    return NextResponse.json(
+        { message: "Не удалось получить комментарии к статье" },
+        { status: 500 }
+    );
 }

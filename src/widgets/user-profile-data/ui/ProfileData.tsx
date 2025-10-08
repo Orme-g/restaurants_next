@@ -1,16 +1,20 @@
 "use client";
-
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import clsx from "clsx";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { useGetProfile } from "../api/useGetProfile";
+import ChangePasswordForm from "@/features/user/change-password/ui/ChangePasswordForm";
 import calculateExperience from "@/entities/user/lib/calculateExperience";
 import transformDate from "@/shared/lib/transfromDate";
 
 import styles from "./ProfileData.module.scss";
 
 const ProfileData = () => {
+    const [displayPassForm, setDisplayPassForm] = useState<boolean>(false);
     const { data: profileData, isPending } = useGetProfile();
     if (isPending || !profileData) {
         return;
@@ -19,11 +23,14 @@ const ProfileData = () => {
         profileData;
     const status = calculateExperience(reviews);
     const registered = transformDate(createdAt);
+    const changePassButton = () => {
+        setDisplayPassForm((state) => (state = !state));
+    };
     return (
         <section className={styles["profile-data"]}>
             <div className={styles["profile-data__header"]}>
                 <div className={styles["profile-data__avatar"]}>
-                    <img src={avatar} alt="avatar" />
+                    <Image src={avatar} alt="user-avatar" height={90} width={90} />
                 </div>
                 <div className={styles["profile-data__greet"]}>Привет, {name}</div>
             </div>
@@ -86,18 +93,25 @@ const ProfileData = () => {
                         </div>
                     </div>
 
-                    <div className={styles["profile-data__info-item change-password"]}>
+                    <div
+                        className={clsx(
+                            styles["profile-data__info-item"],
+                            styles["change-password"]
+                        )}
+                    >
                         <div className={styles["profile-data__info-field"]}>
-                            <Button
-                                // onClick={() => changePassButton()}
-                                className={styles["show-change-fields"]}
-                            >
-                                Изменить пароль
+                            <Button onClick={() => changePassButton()}>
+                                {displayPassForm ? "Отменить изменения" : "Изменить пароль"}
                             </Button>
                         </div>
                         <div className={styles["profile-data__info-value"]}>
-                            <div className={styles["password-fields hide"]}>
-                                {/* <ChangePasswordForm /> */}
+                            <div
+                                className={clsx(
+                                    styles["password-fields"],
+                                    displayPassForm ? styles["show"] : styles["hide"]
+                                )}
+                            >
+                                <ChangePasswordForm />
                             </div>
                         </div>
                     </div>
